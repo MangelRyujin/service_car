@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Inicio de sesión{% endblock %}
+{% block contend %}
+
+<section class="container my-4 py-4" >
+    <div class="d-flex justify-content-center align-items-center w-100 h-100 mt-4">
+      
+      <div class="col-12 col-sm-10 col-md-7 col-lg-4">
+          <form class="w-auto justify-center" hx-post="{% url 'login_view' %}" hx-target="#response" hx-indicator="#spinnerLoginForm" 
+          hx-swap="innerHTML" hx-trigger="submit"
+          >
+            
+            {% csrf_token %}
+            
+              <h1 class="text-center h3 mb-3 mt-1 text-body-secondary">Iniciar sesión</h1>
+              <div class=" input-group mt-4">
+                
+                  <input type="text" class="form-control" id="floatingInputUsername" name='username' required placeholder="Username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                  <input type="hidden" name="next" value="{{ next }}">
+                  <span class="input-group-text" id="basic-addon2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="20 bi-person-circle" viewBox="0 0 16 16">
+                      <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                      <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                    </svg>
+                  </span>
+                </div>
+                <div class=" input-group mt-4">
+                  
+                  <input type="password" class="form-control" id="floatingInputPassword" name='password' required placeholder="Password" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                  
+                  <span class="input-group-text" id="basic-addon2">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class=" bi-eye-slash-fill cursor-pointer" viewBox="0 0 16 16" id="eyeSlashIcon">
+                          <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z"/>
+                      <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z"/>
+                      </svg>
+                      <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class=" bi-eye-fill cursor-pointer d-none" viewBox="0 0 16 16" id="eyeIcon">
+                          <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                          <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+                      </svg>
+                      
+                  </span>
+                </div>
+                <div id="response"></div>
+              
+              <button class="btn d-flex justify-content-center align-items-center btn-outline-primary shadow-sm border-2 border-primary w-100 py-2 my-4" 
+              type="submit">
+                <span id="spinnerLoginForm" class="htmx-indicator spinner-border spinner-border-sm me-2" ></span> Iniciar</button>
+            </form>
+      </div>
+          
+      
+    </div>
+  </section>
+
+ <script src="{% static '/assets/js/loginpass.js' %}"></script>
+
+{% endblock contend %}

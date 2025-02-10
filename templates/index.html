@@ -1,0 +1,83 @@
+{% extends "base_admin.html" %}
+{% load static %}
+{% load user_tags %} 
+{% block title %} Principal {% endblock %}
+{% block contend %}
+
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 g-3 pt-2 mb-4 pb-4 ">
+    <div class="col">
+      <div class="h-100 p-3 bg-body-tertiary border rounded-3">
+        <h2>Usuarios</h2>
+        <div class="mb-2 flex justify-content-center w-100">
+        <img src="{% static "img/users.svg" %}" height="250" width="100%"/>
+        </div>
+        <p>Administre los usuarios del sistema, incluyendo permisos e información personal.</p>
+        
+        <a href="{% url "admin_view" %}" class="btn btn-primary fw-bold" type="button">Ver más</a>
+      </div>
+    </div>
+    <div class="col">
+        <div class="h-100 p-3 bg-body-tertiary border rounded-3">
+          <h2>Instalaciones</h2>
+          <div class="mb-2 flex justify-content-center w-100">
+          <img src="{% static "img/locals.svg" %}" height="250" width="100%"/>
+          </div>
+          <p>Administre los instalaciones de ventas.</p>
+          
+          <button class="btn btn-primary fw-bold" type="button">Ver más</button>
+        </div>
+      </div>
+      <div class="col">
+        <div class="h-100 p-3 bg-body-tertiary border rounded-3">
+          <h2>Servicios</h2>
+          <div class="mb-2 flex justify-content-center w-100">
+          <img src="{% static "img/services.svg" %}" height="250" width="100%"/>
+          </div>
+          <p>Administre los servicios que caracterizan su negocio.</p>
+          
+          <button class="btn btn-primary fw-bold" type="button">Ver más</button>
+        </div>
+      </div>
+      <div class="col">
+        <div class="h-100 p-3 bg-body-tertiary border rounded-3">
+          <h2>Clientes</h2>
+          <div class="mb-2 flex justify-content-center w-100">
+          <img src="{% static "img/clients.svg" %}" height="250" width="100%"/>
+          </div>
+          <p>Todos sus clientes potenciales.</p>
+          
+          <button class="btn btn-primary fw-bold" type="button">Ver más</button>
+        </div>
+      </div>
+      <div class="col">
+        <div class="h-100 p-3 bg-body-tertiary border rounded-3">
+          <h2>Reportes</h2>
+          <div class="mb-2 flex justify-content-center w-100">
+          <img src="{% static "img/reports.svg" %}" height="250" width="100%"/>
+          </div>
+          <p>Reportes de las ventas realizadas.</p>
+          
+          <button class="btn btn-primary fw-bold" type="button">Ver más</button>
+        </div>
+      </div>
+      <div class="col">
+        <div class="h-100 p-3 bg-body-tertiary border rounded-3">
+          <h2>Ventas</h2>
+          <div class="mb-2 flex justify-content-center w-100">
+          <img src="{% static "img/sales.svg" %}" height="250" width="100%"/>
+          </div>
+          <p>Empiece a vender de forma rápida y efectiva.</p>
+          
+          <button class="btn btn-primary fw-bold" type="button">Ver más</button>
+        </div>
+      </div>
+      
+
+  </div>
+  
+  
+ 
+{% endblock contend %}
+
+        

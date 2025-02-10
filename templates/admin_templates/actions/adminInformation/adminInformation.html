@@ -1,0 +1,161 @@
+{% extends "base_admin.html" %}
+{% load static %}
+{% block title %} Perfil{% endblock %}
+{% block contend %}
+
+<div class=" mb-5 py-2">
+<h3 class="text-center ">Perfil</h3>
+{% if form %}
+<div id="updateInformation">
+    <form method="POST" enctype="multipart/form-data" class="form" hx-post="{% url 'change_information'%}" hx-swap="innerHTML"
+    hx-trigger="submit" hx-target="#updateInformation">
+        {% csrf_token %}
+        
+            <div class="row ">
+                <div class="col-md-4 col-sm-6 col-12 mb-2"> 
+                <div class="form-group p-2">
+                    <label for="{{ form.username.id_for_label }}" class="control-label">Username</label>
+                    <input type="text" class="form-control" required name="username" id="{{ form.username.id_for_label }}" value="{{ form.username.value|default_if_none:'' }}">
+                    {% if form.username.errors %}
+                        <div class="alert alert-danger mt-2">
+                            {% for error in form.username.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+    
+            <div class="col-md-4 col-sm-6 col-12 mb-2"> 
+                <div class="form-group p-2">
+                    <label for="{{ form.email.id_for_label }}" class="control-label">Email</label>
+                    <input type="email" required name="email" class="form-control" id="{{ form.email.id_for_label }}" value="{{ form.email.value|default_if_none:'' }}">
+                    {% if form.email.errors %}
+                        <div class="alert alert-danger mt-2">
+                            {% for error in form.email.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-12 mb-2"> 
+                <div class="form-group p-2">
+                    <label for="{{ form.dni.id_for_label }}" class="control-label">DNI</label>
+                    <input type="text"  name="dni" class="form-control" id="{{ form.dni.id_for_label }}" value="{{ form.dni.value|default_if_none:'' }}">
+                    {% if form.dni.errors %}
+                        <div class="alert alert-danger mt-2">
+                            {% for error in form.dni.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-12 mb-2"> 
+                <div class="form-group p-2">
+                    <label for="{{ form.first_name.id_for_label }}" class="control-label">Nombres</label>
+                    <input type="text" class="form-control"  name="first_name" id="{{ form.first_name.id_for_label }}" value="{{ form.first_name.value|default_if_none:'' }}">
+                    {% if form.first_name.errors %}
+                        <div class="alert alert-danger mt-2">
+                            {% for error in form.first_name.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+    
+            <div class="col-md-4 col-sm-6 col-12 mb-2">
+                <div class="form-group p-2">
+                    <label for="{{ form.last_name.id_for_label }}" class="control-label">Apellidos</label>
+                    <input type="text" class="form-control"  name="last_name" id="{{ form.last_name.id_for_label }}" value="{{ form.last_name.value|default_if_none:'' }}">
+                    {% if form.last_name.errors %}
+                    <div class="alert alert-danger mt-2">
+                        {% for error in form.last_name.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-12 mb-2">
+                <div class="form-group p-2">
+                    <label for="{{ form.phone_number.id_for_label }}" class="control-label">Número móvil</label>
+                    <input type="tel" class="form-control" name="phone_number" id="{{ form.phone_number.id_for_label }}" value="{{ form.phone_number.value|default_if_none:'' }}">
+                    {% if form.phone_number.errors %}
+                        <div class="alert alert-danger mt-2">
+                            {% for error in form.phone_number.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+    
+            
+    
+           
+       
+    
+        <div class="col-md-4 col-sm-6 col-12 mb-2">
+            <div class="form-group p-2">
+                <label for="{{ form.country.id_for_label }}" class="control-label">País</label>
+                <input type="text" class="form-control"  name="country" id="{{ form.country.id_for_label }}" value="{{ form.country.value|default_if_none:'' }}">
+                {% if form.country.errors %}
+                    <div class="alert alert-danger mt-2">
+                        {% for error in form.country.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-12 mb-2">
+            <div class="form-group p-2">
+                <label for="{{ form.city.id_for_label }}" class="control-label">Ciudad</label>
+                <input type="text" class="form-control"  name="city" id="{{ form.city.id_for_label }}" value="{{ form.city.value|default_if_none:'' }}">
+                {% if form.city.errors %}
+                    <div class="alert alert-danger mt-2">
+                        {% for error in form.city.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+            
+        <div class="col-md-4 col-sm-6 col-12 mb-2">
+            <div class="form-group p-2">
+                <label for="{{ form.address.id_for_label }}" class="control-label">Dirección</label>
+                <input type="text" class="form-control"  name="address" id="{{ form.address.id_for_label }}" value="{{ form.address.value|default_if_none:'' }}">
+                {% if form.address.errors %}
+                    <div class="alert alert-danger mt-2">
+                        {% for error in form.address.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        
+        </div>
+        
+        <span class="w-100 d-flex justify-content-center justify-content-sm-end mt-3 ">
+            <button type="submit" class="btn d-flex justify-content-center align-items-center btn-outline-primary shadow-sm border-2 border-primary px-5" hx-indicator="#spinner" hx-disable="true">
+                <span id="spinner" class="htmx-indicator spinner-border spinner-border-sm me-2" style="display:none;"></span>
+                Confirmar cambios
+            </button>
+            
+        </span>      
+       
+    </form>
+</div>
+{% endif %}
+</div>
+
+
+{% endblock contend %}
+
+ 
