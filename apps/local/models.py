@@ -8,7 +8,7 @@ class Local(models.Model):
     name=models.CharField(max_length=100)
     address=models.CharField(max_length=150, blank=True)
     is_active=models.BooleanField(default=False)
-    users = models.ManyToManyField(User, null=True,blank=True)
+    users = models.ManyToManyField(User, blank=True)
     
     class Meta:
         verbose_name = "Local"
