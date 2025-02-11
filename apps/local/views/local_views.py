@@ -3,6 +3,7 @@ from apps.account.decorators import group_required
 from django.core.paginator import Paginator
 import logging
 
+from apps.account.models import User
 from apps.local.filters import LocalFilter
 from apps.local.forms.local_forms import CreateLocalForm, UpdateLocalForm
 from apps.local.models import Local
@@ -28,7 +29,9 @@ def local_table_results(request):
 # category create form
 @staff_member_required(login_url='/')
 def local_create(request):
-    context={}
+    context={
+        'users':User.objects.filter(is_active=True,is_staff=True)
+    }
     if request.method == "POST":
         form = CreateLocalForm(request.POST)
         if form.is_valid():
@@ -48,7 +51,9 @@ def local_create(request):
 def local_update(request,pk):
     local = Local.objects.filter(pk=pk).first()
     form = UpdateLocalForm(instance=local)
-    context={}
+    context={
+        'users':User.objects.filter(is_active=True,is_staff=True)
+    }
     context['local']=local
     context['form']=form
     return render(request,'local_templates/actions/localUpdate/localUpdateForm.html',context) 
@@ -56,7 +61,9 @@ def local_update(request,pk):
 # local main information update form
 @staff_member_required(login_url='/')
 def local_form_update(request,pk):
-    context={}
+    context={
+        'users':User.objects.filter(is_active=True,is_staff=True)
+    }
     if request.method == "POST":
         local = Local.objects.filter(pk=pk).first()
         form = UpdateLocalForm(request.POST,request.FILES,instance=local)
@@ -64,6 +71,7 @@ def local_form_update(request,pk):
             local_form_valid=form.save(commit=False)
             local_form_valid._change_reason = f'Local {local.name} modificado'
             local_form_valid.save()
+            form.save_m2m()
             message="Editado correctamente"
             context['message']=message
         else:

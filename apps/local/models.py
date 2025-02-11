@@ -1,12 +1,15 @@
 from django.db import models
 
+from apps.account.models import User
+
 # Create your models here.
 
 class Local(models.Model):
     name=models.CharField(max_length=100)
     address=models.CharField(max_length=150, blank=True)
     is_active=models.BooleanField(default=False)
-
+    users = models.ManyToManyField(User, null=True,blank=True)
+    
     class Meta:
         verbose_name = "Local"
         verbose_name_plural = "Locals"

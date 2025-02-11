@@ -22,6 +22,27 @@
                 <label for="{{ form.address.id_for_label }}Update" class="form-label">Dirección</label>
                 <input type="text" name="address" value="{{ form.address.value }}" class="form-control" id="{{ form.address.id_for_label }}Update" placeholder="Dirección">
               </div>
+              <div class="col-12 mt-4">
+                <div class="row">
+                  <div class="col-12">
+                    <label for="{{ form.users.id_for_label }}Update" class="form-label">Usuarios (cero o más)</label>
+                    <div class="input-group">
+                      <select multiple class="form-select" required name="users" id="{{ form.users.id_for_label }}Update">
+                        {% for category in form.users %}
+                        {{category}}
+                        {% endfor %}
+                      </select>
+                    </div>
+                    {% if form.users.errors %}
+                    <div class="alert alert-danger mt-2">
+                    {% for error in form.users.errors %}
+                        {{ error }}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+                  </div>
+                </div>
+              </div>
               <div class="col-12  mt-4">
                 <label class="form-check-label" for="{{ form.is_active.id_for_label }}Update">
                   Activo
