@@ -5,6 +5,7 @@ from apps.general.views.general_views import dashboard_view
 urlpatterns = [
     path('',dashboard_view,name='dashboard_view'),
     path('admins/',include('apps.account.urls.admin_urls')),
+    path('locals/',include('apps.local.urls.local_urls')),
     path('perfil/', change_information, name='change_information'),
 ]
 

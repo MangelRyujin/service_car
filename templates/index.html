@@ -13,8 +13,10 @@
         <img src="{% static "img/users.svg" %}" height="250" width="100%"/>
         </div>
         <p>Administre los usuarios del sistema, incluyendo permisos e información personal.</p>
+        <div class="d-flex justify-content-end">
+          <a href="{% url "admin_view" %}" class="btn btn-primary fw-bold" type="button">Ver más</a>
+        </div>
         
-        <a href="{% url "admin_view" %}" class="btn btn-primary fw-bold" type="button">Ver más</a>
       </div>
     </div>
     <div class="col">
@@ -24,8 +26,9 @@
           <img src="{% static "img/locals.svg" %}" height="250" width="100%"/>
           </div>
           <p>Administre los instalaciones de ventas.</p>
-          
-          <button class="btn btn-primary fw-bold" type="button">Ver más</button>
+          <div class="d-flex justify-content-end">
+            <a href="{% url "local_view" %}" class="btn btn-primary fw-bold" type="button">Ver más</a>
+        </div>
         </div>
       </div>
       <div class="col">
@@ -35,9 +38,10 @@
           <img src="{% static "img/services.svg" %}" height="250" width="100%"/>
           </div>
           <p>Administre los servicios que caracterizan su negocio.</p>
-          
+          <div class="d-flex justify-content-end">
           <button class="btn btn-primary fw-bold" type="button">Ver más</button>
         </div>
+      </div>
       </div>
       <div class="col">
         <div class="h-100 p-3 bg-body-tertiary border rounded-3">
@@ -46,9 +50,10 @@
           <img src="{% static "img/clients.svg" %}" height="250" width="100%"/>
           </div>
           <p>Todos sus clientes potenciales.</p>
-          
-          <button class="btn btn-primary fw-bold" type="button">Ver más</button>
+          <div class="d-flex justify-content-end">
+          <button class="btn btn-primary fw-bold " type="button">Ver más</button>
         </div>
+      </div>
       </div>
       <div class="col">
         <div class="h-100 p-3 bg-body-tertiary border rounded-3">
@@ -57,8 +62,9 @@
           <img src="{% static "img/reports.svg" %}" height="250" width="100%"/>
           </div>
           <p>Reportes de las ventas realizadas.</p>
-          
+          <div class="d-flex justify-content-end">
           <button class="btn btn-primary fw-bold" type="button">Ver más</button>
+        </div>
         </div>
       </div>
       <div class="col">
@@ -68,8 +74,9 @@
           <img src="{% static "img/sales.svg" %}" height="250" width="100%"/>
           </div>
           <p>Empiece a vender de forma rápida y efectiva.</p>
-          
+          <div class="d-flex justify-content-end">
           <button class="btn btn-primary fw-bold" type="button">Ver más</button>
+        </div>
         </div>
       </div>
       

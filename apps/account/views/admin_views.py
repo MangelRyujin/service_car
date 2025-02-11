@@ -136,7 +136,7 @@ def admin_delete(request,pk):
 @group_required('administrador')
 @staff_member_required(login_url='/')
 def _show_admin(request):
-    return _create_paginator(request,User.objects.exclude(is_staff=False).order_by('-id'))
+    return _create_paginator(request,AdminFilter(request.GET, queryset=User.objects.exclude(is_staff=False).order_by('-id')))
 
 
 # Detail user admin table
