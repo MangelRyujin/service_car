@@ -99,7 +99,7 @@ def order_update(request,pk):
         
     }  
     if request.method == "POST":
-        form=UpdateOrderForm(request.POST,instance=order)
+        form=UpdateOrderForm(request.POST,request.FILES,instance=order)
         if form.is_valid():
             form.save()
             context['message']='Editado correctamente'

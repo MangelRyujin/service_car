@@ -7,7 +7,7 @@ class UpdateOrderForm(forms.ModelForm):
     
     class Meta:
         model = Order
-        fields = ['client_dni','client_full_name','client_car_plaque','client_car_brand','client_car_model']
+        fields = ['client_email','client_full_name','client_car_plaque','client_car_brand','client_car_model','image']
 
 class CreateItemForm(forms.ModelForm):
     

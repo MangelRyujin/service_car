@@ -24,7 +24,7 @@ class Order(models.Model):
     created_user_pk=models.CharField(max_length=15)
     created_user_username=models.CharField(max_length=15)
     created_user_email=models.CharField(max_length=15)
-    client_dni=models.CharField(max_length=15,blank=True)
+    client_email=models.EmailField(max_length=80,blank=True)
     client_full_name=models.CharField(max_length=100,blank=True)
     client_car_plaque=models.CharField(max_length=20)
     client_car_brand=models.CharField(max_length=15,blank=True)
@@ -32,7 +32,7 @@ class Order(models.Model):
     local = models.ForeignKey(Local,on_delete=models.CASCADE, related_name='local_order')
     price = models.FloatField(default=0,validators=[MinValueValidator(0)])
     is_paid= models.BooleanField(default=False)
-    
+    image = models.ImageField(upload_to='order_image/')
     
     
     class Meta:
