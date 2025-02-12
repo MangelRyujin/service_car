@@ -6,6 +6,8 @@ urlpatterns = [
     path('',dashboard_view,name='dashboard_view'),
     path('admins/',include('apps.account.urls.admin_urls')),
     path('locals/',include('apps.local.urls.local_urls')),
+    path('services/',include('apps.service.urls.service_urls')),
     path('perfil/', change_information, name='change_information'),
+    path('sales/',include('apps.local.urls.order_urls')),
 ]
 

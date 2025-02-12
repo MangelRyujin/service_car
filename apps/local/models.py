@@ -1,6 +1,7 @@
 from django.db import models
-
+from django.core.validators import MinValueValidator
 from apps.account.models import User
+from apps.service.models import Service
 
 # Create your models here.
 
@@ -18,17 +19,52 @@ class Local(models.Model):
         return self.name
 
 
-class Shift(models.Model):
+class Order(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
-    finish_at=models.DateTimeField(auto_now=False)
     created_user_pk=models.CharField(max_length=15)
     created_user_username=models.CharField(max_length=15)
     created_user_email=models.CharField(max_length=15)
-    local = models.ForeignKey(Local,on_delete=models.CASCADE, related_name='local_shift')
-
+    local = models.ForeignKey(Local,on_delete=models.CASCADE, related_name='local_order')
+    price = models.FloatField(default=0,validators=[MinValueValidator(0)])
+    is_paid= models.BooleanField(default=False)
+    
+    
+    
     class Meta:
-        verbose_name = "Shift"
-        verbose_name_plural = "Shifts"
+        verbose_name = "Order"
+        verbose_name_plural = "Orders"
+
+    def __str__(self):
+        return f'{self.pk}'
+    
+    @property
+    def total_price(self):
+        return 0.00
+    
+    @property
+    def total_items(self):
+        return 0
+    
+class Item(models.Model):
+    order=models.ForeignKey(Order,on_delete=models.CASCADE, related_name='order_item')
+    service=models.ForeignKey(Service,on_delete=models.CASCADE, related_name='service_item')
+    price = models.FloatField(default=0,validators=[MinValueValidator(0)])
+    
+    class Meta:
+        verbose_name = "Item"
+        verbose_name_plural = "Items"
+
+    def __str__(self):
+        return f'{self.pk}'
+
+class ExtraItem(models.Model):
+    order=models.ForeignKey(Order,on_delete=models.CASCADE, related_name='order_extra_item')
+    description=models.TextField()
+    price = models.FloatField(default=1,validators=[MinValueValidator(0)])
+    
+    class Meta:
+        verbose_name = "Extra Item"
+        verbose_name_plural = "Extra Items"
 
     def __str__(self):
         return f'{self.pk}'

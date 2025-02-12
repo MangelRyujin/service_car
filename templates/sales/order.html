@@ -1,0 +1,75 @@
+{% extends "base_admin.html" %}
+{% load static %}
+{% block title %} Ventas {% endblock %}
+{% block contend %}
+       {% include "sales/orderDelete/modalOrderDelete.html" %}
+
+
+  <div class="w-100 d-flex justify-content-between align-items-center my-2" >
+    <div class="input-group" style="min-width: 200px;max-width: 300px;">
+      
+      <input type="search" 
+            class="form-control"
+            name="keyword" placeholder="Buscar..." 
+            hx-post="{% url 'order_results_view' %}" 
+            hx-trigger="input changed delay:500ms, keyword" 
+            hx-target="#OrderResults" 
+            hx-indicator="#spinner"
+            hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'
+        >
+        <span class="input-group-text" id="basic-addon1">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class=" bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+          </svg>
+        </span>
+    </div>
+    
+    <form class="w-100 d-flex justify-content-end"
+            hx-post="{% url 'order_create' %}" 
+            hx-trigger="submit" 
+            hx-target="#OrderResults" 
+            hx-indicator="#spinnerCreateOrder"
+    >
+      {% csrf_token %}
+        <button type="submit" class="btn btn-outline-success shadow-sm border-2 border-success px-4 d-flex justify-content-center align-items-center"
+        
+        >
+        <div id="spinnerCreateOrder" class="spinner-border spinner-border-sm me-2 htmx-indicator" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+          <svg class="" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+          </svg>
+        </button>
+   
+    
+  </form>
+  </div>  
+
+        {% comment %} <div 
+    hx-get="{% url 'order_results_view' %}"
+    hx-target="#OrderResults"
+    hx-trigger="load"
+    hx-swap="innerHTML"
+    hx-indicator="#spinner"></div> {% endcomment %}
+
+    <div class="w-100 position-relative d-flex justify-content-center align-items-center" style="min-height: 200px !important;" >
+    <div id="spinner" class="htmx-indicator w-100 h-100  loadding-blur position-absolute z-10 d-flex justify-content-center align-items-center"
+    style="min-height: 200px !important;z-index: 100;">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <div class="w-100 mt-3" id="OrderResults">
+      {% include "sales/order_result.html" %}
+    </div>  
+    </div>
+    
+
+  
+
+ 
+{% endblock contend %}
+
+        
