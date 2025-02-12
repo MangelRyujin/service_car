@@ -31,12 +31,10 @@ def _show_order_order(request):
     if request.method == 'POST':
         keyword = request.POST.get("keyword",'')
         request.session['keyword'] = keyword
-        
+
     orders = Order.objects.filter(
-        Q(pk__icontains=keyword) | Q(user_last_name__icontains=keyword)| Q(user_phone__icontains=keyword)
-        | Q(orderextraitem__description__icontains=keyword)| Q(orderitem__service__name__icontains=keyword) 
-        | Q(orderitem__service__description__icontains=keyword)
-        and Q(created_user_pk=str(request.user.pk)) and Q(is_paid=False)
+        Q(pk__icontains=keyword) ,created_user_pk=str(request.user.pk) ,is_paid=False
+        
         ).distinct().order_by('-id')
     context={
         'orders':orders,
