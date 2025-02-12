@@ -12,5 +12,4 @@ class User(AbstractUser):
     country = models.CharField("Country", max_length=255,null=True,blank=True)
     city = models.CharField("Country",max_length=255, null=True,blank=True)
     address = models.CharField("Address",max_length=255, null=True,blank=True)
-    dni = models.CharField("DNI",max_length=20,unique=True, null=True,blank=True)
     

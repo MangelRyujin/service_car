@@ -20,4 +20,4 @@ class ChangeAdminForm(UserChangeForm):
 class ChangeUserPersonalInformation(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username','email','first_name','last_name','dni','phone_number','country','city','address']
+        fields = ['username','email','first_name','last_name','phone_number','country','city','address']

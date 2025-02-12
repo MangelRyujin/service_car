@@ -33,19 +33,7 @@ hx-trigger="submit" hx-target="#updateInformation">
                 {% endif %}
             </div>
         </div>
-        <div class="col-md-4 col-sm-6 col-12 mb-2"> 
-            <div class="form-group p-2">
-                <label for="{{ form.dni.id_for_label }}" class="control-label">DNI</label>
-                <input type="text"  name="dni" class="form-control" id="{{ form.dni.id_for_label }}" value="{{ form.dni.value|default_if_none:'' }}">
-                {% if form.dni.errors %}
-                    <div class="alert alert-danger mt-2">
-                        {% for error in form.dni.errors %}
-                            {{ error }}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </div>
-        </div>
+        
  
 
 

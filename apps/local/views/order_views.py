@@ -2,7 +2,7 @@ from django.shortcuts import render,get_object_or_404
 from django.contrib.admin.views.decorators import staff_member_required
 import logging
 from apps.account.decorators import group_required
-from apps.local.forms.order_forms import CreateExtraItemForm, CreateItemForm, UpdateOrderForm
+from apps.local.forms.order_forms import CreateExtraItemForm, CreateItemForm, CreateOrderForm, UpdateOrderForm
 from apps.local.models import ExtraItem, Item, Order
 from apps.service.models import Service
 logger = logging.getLogger(__name__)
@@ -35,7 +35,7 @@ def _show_order_order(request):
         request.session['keyword'] = keyword
 
     orders = Order.objects.filter(
-        Q(pk__icontains=keyword) | Q(client_dni__icontains=keyword) |
+        Q(pk__icontains=keyword) | Q(client_email__icontains=keyword) |
         Q(client_full_name__icontains=keyword) | Q(client_car_plaque__icontains=keyword) |
         Q(client_car_brand__icontains=keyword) | Q(client_car_model__icontains=keyword) |
         Q(order_item__service__name__icontains=keyword) | Q(order_extra_item__description__icontains=keyword)
@@ -66,13 +66,16 @@ def order_create(request):
     context=_show_order_order(request)
     if request.method == "POST":
         local=request.user.local_set.first()
-        Order.objects.create(
-            local=local,
-            created_user_pk = request.user.pk,
-            created_user_username = request.user.username,
-            created_user_email = request.user.email
-        )
-    return render(request,'sales/order_result.html',context) 
+        form = CreateOrderForm(request.POST,request.FILES)
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.local=local
+            order.created_user_pk=request.user.pk
+            order.created_user_username=request.user.username
+            order.created_user_email=request.user.email
+            order.save()
+            context['message']="Orden creada correctamente"
+    return render(request,'sales/orderCreate/orderCreateCheckForm.html',context) 
 
 # Local order delete btn
 @group_required('gestor')

@@ -3,6 +3,7 @@
 {% block title %} Ventas {% endblock %}
 {% block contend %}
        {% include "sales/orderDelete/modalOrderDelete.html" %}
+       {% include "sales/orderCreate/offcanvasRightOrderCreate.html" %}
        {% include "sales/orderSold/modalOrderSold.html" %}
        {% include "sales/orderUpdate/offcanvasRightOrderUpdate.html" %}
        {% include "sales/serviceOrderUpdate/offcanvasRightServiceOrderUpdate.html" %}
@@ -27,14 +28,10 @@
         </span>
     </div>
     
-    <form class="w-100 d-flex justify-content-end"
-            hx-post="{% url 'order_create' %}" 
-            hx-trigger="submit" 
-            hx-target="#OrderResults" 
-            hx-indicator="#spinnerCreateOrder"
-    >
-      {% csrf_token %}
+    
+  
         <button type="submit" class="btn btn-outline-success shadow-sm border-2 border-success px-4 d-flex justify-content-center align-items-center"
+        data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightOrderCreate" aria-controls="offcanvasRight"
         
         >
         <div id="spinnerCreateOrder" class="spinner-border spinner-border-sm me-2 htmx-indicator" role="status">
@@ -46,8 +43,7 @@
           </svg>
         </button>
    
-    
-  </form>
+  
   </div>  
 
 
