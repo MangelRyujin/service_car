@@ -24,6 +24,11 @@ class Order(models.Model):
     created_user_pk=models.CharField(max_length=15)
     created_user_username=models.CharField(max_length=15)
     created_user_email=models.CharField(max_length=15)
+    client_dni=models.CharField(max_length=15,blank=True)
+    client_full_name=models.CharField(max_length=100,blank=True)
+    client_car_plaque=models.CharField(max_length=20)
+    client_car_brand=models.CharField(max_length=15,blank=True)
+    client_car_model=models.CharField(max_length=15,blank=True)
     local = models.ForeignKey(Local,on_delete=models.CASCADE, related_name='local_order')
     price = models.FloatField(default=0,validators=[MinValueValidator(0)])
     is_paid= models.BooleanField(default=False)
@@ -39,11 +44,19 @@ class Order(models.Model):
     
     @property
     def total_price(self):
-        return 0.00
+        items = sum(item.price for item in self.order_item.all()) or 0
+        extra = sum(item.price for item in self.order_extra_item.all()) or 0
+        return items + extra
     
     @property
     def total_items(self):
-        return 0
+        return self.order_item.all().count() + self.order_extra_item.all().count()
+    
+    @property
+    def paid(self):
+        if self.client_car_plaque and self.total_items > 0:
+            return True
+        return False
     
 class Item(models.Model):
     order=models.ForeignKey(Order,on_delete=models.CASCADE, related_name='order_item')

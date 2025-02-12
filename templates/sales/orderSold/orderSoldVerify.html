@@ -1,35 +1,79 @@
 {% load static %}
 {% if order %}
 <div class="modal-header">
-  <h5 class="modal-title">Eliminar orden</h5>
+  <h5 class="modal-title">Pagar orden</h5>
   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
-<div class="modal-body p-4 text-center">
+  {% if message %}
+  <img src="{% static "img/paymentSuccess.svg" %}" width="90%" height="200" class="mt-3"/>
+  <h5 class="modal-title text-center my-3">{{message}}</h5>
+  <div class="modal-footer justify-content-center border-0 flex-nowrap p-2">
+    <button type="button" class="btn btn-outline-primary btn-lg w-100 fs-6 border-0 text-decoration-none col-6 py-3 m-0 " data-bs-dismiss="modal"><strong>OK</strong></button>
+  </div>
+
+  <div
+              hx-get="{% url 'order_detail' pk=order.pk %}" 
+              hx-trigger="load" 
+              hx-swap="outerHTML"
+              hx-target="#OrderCard{{order.pk}}" 
+              hx-indicator="#OrderCardSpinner{{order.pk}}"
+            >
+                
+              </div>
+  {% else %}
+<div class="modal-body p-3 text-center">
             
-    <h5 class="mb-0">Estás seguro que quieres eliminar la orden: {{order.pk}}?</h5>
-    <p class="mb-0">Si aceptas!!! la orden seleccionado será eliminada completamente.</p>
-            
+  <h5 class="mb-2">Estás seguro que quieres completar la orden: {{order.pk}}?</h5>
+  <p class="mb-0">Si aceptas!!! la orden seleccionada será completamente pagada.</p>
+  <div class="d-flex flex-column align-items-center mt-4">
+  {% if order.order_item.all %}
+  <h5 class="mb-2">Servicios</h5>
+  <ul class="p-0">
+    {% for item in order.order_item.all %}
+    <li class="text-center list-unstyled">
+      <span>{{item.service.name}} - $ {{item.price}}</span>
+    </li>
+    {% endfor %}
+    
+  </ul>
+  {% endif %}
+  {% if order.order_extra_item.all %}
+  <h5 class="mb-2">Servicios extras</h5>
+  <ul class="p-0">
+    {% for extra_item in order.order_extra_item.all %}
+    <li class="text-center list-unstyled">
+      <span>{{extra_item.description}}- $ {{extra_item.price}}</span>
+
+    </li>
+    {% endfor %}
+    
+  </ul>
+  {% endif %}
+  <h5 class="mb-0 ">Monto total: $ {{order.total_price}}</h5>   
+</div>
 </div>
 <div class="modal-footer border-0 flex-nowrap p-2">
-    <form class="w-100"
-        hx-post="{% url 'order_delete' pk=order.pk %}"
-        hx-target="#OrderCard{{order.pk}}"
-        hx-swap="outerHTML"
-        hx-trigger="submit"
-        hx-indicator="#OrderCardSpinner{{order.pk}}">
-        {% csrf_token %}
-        <button id="liveToastBtn" data-bs-dismiss="modal" type="submit" 
-            class="btn btn-outline-primary w-100 btn-lg border-0 border-2 fs-6 text-decoration-none col-6 py-3 m-0 border-0"
-              >
-            <span id="spinnerOrderDelete" class="htmx-indicator spinner-border spinner-border-sm me-2" ></span><strong>Sí, eliminar</strong>
-        </button>
-    </form>
-  
-  <button type="button" class="btn btn-outline-danger btn-lg  fs-6 border-0 text-decoration-none col-6 py-3 m-0 " data-bs-dismiss="modal"><strong>No gracias</strong></button>
+  <form class="w-100"
+      hx-post="{% url 'order_sold' pk=order.pk %}"
+      hx-target="#OrderSold"
+      hx-swap="innerHTML"
+      hx-trigger="submit"
+      hx-indicator="#spinnerOrderSold">
+      {% csrf_token %}
+      <button id="liveToastBtn"  type="submit" 
+          class="d-flex justify-content-center align-items-center btn btn-outline-primary w-100 btn-lg border-0 border-2 fs-6 text-decoration-none col-6 py-3 m-0 border-0"
+            >
+          <span id="spinnerOrderSold" class="htmx-indicator spinner-border spinner-border-sm me-2" ></span><strong>Sí, pagar</strong>
+      </button>
+  </form>
+
+<button type="button" class="btn btn-outline-danger btn-lg  fs-6 border-0 text-decoration-none col-6 py-3 m-0 " data-bs-dismiss="modal"><strong>No gracias</strong></button>
 </div>
+{% endif %}
+
 {% else %}
 <div class="modal-header">
-  <h5 class="modal-title">Eliminar orden</h5>
+  <h5 class="modal-title">Pagar orden</h5>
   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 <div class="modal-body p-4 text-center">

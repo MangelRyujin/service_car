@@ -9,7 +9,7 @@
     </div>
     <div class=" card h-100 list-group-item  border-1 rounded  border shadow">
       
-      <div class="card-header d-flex {% if order.state == 'p' %}border-warning-subtle{% else %}border-success-subtle{% endif %} justify-content-between p-2 align-items-center mb-1">
+      <div class="card-header d-flex  justify-content-between p-2 align-items-center mb-1">
         <div class="d-flex flex-column justify-content-center gap-1 align-items-start w-100">
           <div class="d-flex justify-content-between w-100">
             <span>#{{order.pk}}</span>
@@ -20,9 +20,9 @@
                 <span class="visually-hidden">Toggle Dropdown</span>
   
               <ul class="dropdown-menu shadow">
-                <li class=" p-1"><a class="dropdown-item rounded d-flex align-items-center " href="#"
+                <li class=" p-1"><a class="dropdown-item rounded d-flex align-items-center {% if not order.paid %}disabled{% endif %}" href="#"
                     data-bs-toggle="modal" data-bs-target="#modalOrderSold"
-                    {% comment %} hx-get="{% url 'order_sold' pk=order.pk  %} " {% endcomment %}
+                    hx-get="{% url 'order_sold' pk=order.pk  %} "
                     hx-target="#OrderSold"
                     hx-swap="innerHTML"
                     hx-trigger="click"
@@ -36,7 +36,7 @@
                 
                   <li class=" p-1"><a class="dropdown-item rounded d-flex align-items-center "
                     href="#"
-                    {% comment %} hx-get="{% url 'order_update' pk=order.pk  %} " {% endcomment %}
+                    hx-get="{% url 'order_update' pk=order.pk  %} "
                     hx-target="#OrderUpdate"
                     hx-swap="innerHTML"
                     hx-trigger="click"
@@ -51,8 +51,8 @@
                   
                     <li class=" p-1"><a class="dropdown-item rounded d-flex align-items-center "
                       href="#"
-                      data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightOrderItemCreate" aria-controls="offcanvasRight"
-                      {% comment %} hx-get="{% url 'order_item_create' pk=order.pk %}" {% endcomment %}
+                      data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightServiceOrderCreate" aria-controls="offcanvasRight"
+                      hx-get="{% url 'order_item_create' pk=order.pk %}"
                       hx-swap="innerHTML"
                       hx-target="#OrderItemCreateForm"
                       hx-trigger="click"
@@ -80,35 +80,29 @@
             </div>
           </div>
           
-          
-          <span class="d-block small lh-sm ">{{order.created_date}}</span>
+          <span class="d-block small lh-sm ">Placa: {% if order.client_car_plaque %}{{order.client_car_plaque}}{% else %}Sin asignar{% endif %}</span>
+          <span class="d-block small lh-sm ">{{order.created_at}}</span>
         </div>
         
       </div>
-      <div class="card-body p-2 overflow-x-hidden" style="max-height: 250px;">
-        {% if order.orderitem_set %}
-          {% for order_item in order.orderitem_set.all %}
+      <div class="card-body p-2 overflow-x-hidden" style="max-height: 150px;min-height: 150px;">
+        {% if order.order_item.all or order.order_extra_item.all %}
+          {% for item in order.order_item.all %}
             <div class="d-flex justify-content-between align-items-center py-1 ">
               <div class="d-flex align-items-center">
-                <img loading="lazy" src="{% if order_item.product.image_one %}{{order_item.product.image_one.url}}{% else %}{% static "/assets/img/icon-image-not-found-free-vector" %}{% endif %}" alt="" width="50" height="50" class="rounded-circle me-2">
                 <p class=" mb-0 small lh-sm  ">
-                  <span class="d-block mb-0 {% if not order_item.available and order_item.order.state == "p" %}text-danger{% endif %} small text-ellipsis-150">
-                    {{order_item.product.name}}
+                  <span class="d-block mb-0  small text-ellipsis-150">
+                    {{item.service.name}}
                     
                   </span>
-                  {% if not order_item.available and order_item.order.state == "p" %}
-                    <span class="d-block mb-0 small {% if not order_item.available %}text-danger{% endif %}">
-                      {{order_item.missing}} unidades faltantes
-                    </span>
-                  {% endif %}
-                  <span class="small">{{order_item.cant}}x - $ {{order_item.total_price}}</span>
+                  <span class="small">$ {{item.price}}</span>
                 </p>
               </div>
-              {% if order.state == 'p' %}
+              
               <div class="d-flex justify-content-center gap-2 align-items-center ">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" 
                 data-bs-toggle="modal" data-bs-target="#modalOrderItemDiscount"
-                {% comment %} hx-get="{% url 'order_item_discount' pk=order_item.pk %}" {% endcomment %}
+                {% comment %} hx-get="{% url 'item_discount' pk=item.pk %}" {% endcomment %}
                 hx-swap="innerHTML"
                 hx-target="#OrderItemDiscount"
                 hx-trigger="click"
@@ -116,18 +110,9 @@
                 fill="currentColor" class="cursor-pointer bi-currency-dollar" viewBox="0 0 16 16">
                   <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z"/>
                 </svg>
-                <svg 
-                data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightOrderItemStockCreate" aria-controls="offcanvasRight"
-                {% comment %} hx-get="{% url 'order_item_stock_create' pk=order_item.pk %}" {% endcomment %}
-                hx-swap="innerHTML"
-                hx-target="#OrderItemStockCreateForm"
-                hx-trigger="click"
-                xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cursor-pointer text-success bi-plus-circle" viewBox="0 0 16 16">
-                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
-                </svg>
+                
                 <svg
-                      {% comment %} hx-post="{% url 'order_item_delete' pk=order_item.pk %}"  {% endcomment %}
+                       hx-post="{% url 'order_item_delete' pk=item.pk %}"  
                       hx-swap="outerHTML"
                       hx-trigger="click"
                       hx-target="#OrderCard{{order.pk}}" 
@@ -137,7 +122,38 @@
                   <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
                 </svg>
               </div>
-              {% endif %}
+             
+              
+            </div>
+            
+            
+          {% endfor %}
+          {% for extra_item in order.order_extra_item.all %}
+            <div class="d-flex justify-content-between align-items-start py-1 ">
+              <div class="d-flex align-items-center">
+                <p class=" mb-0 small lh-sm  ">
+                  <span class="d-block mb-0  small ">
+                    {{extra_item.description}}
+                    
+                  </span>
+                  <span class="small">$ {{extra_item.price}}</span>
+                </p>
+              </div>
+              
+              <div class="d-flex justify-content-center gap-2 align-items-center ">
+                
+                <svg
+                       hx-post="{% url 'order_extra_item_delete' pk=extra_item.pk %}"  
+                      hx-swap="outerHTML"
+                      hx-trigger="click"
+                      hx-target="#OrderCard{{order.pk}}" 
+                      hx-indicator="#OrderCardSpinner{{order.pk}}"
+                      hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' 
+                xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cursor-pointer text-danger bi-trash3-fill" viewBox="0 0 16 16">
+                  <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                </svg>
+              </div>
+             
               
             </div>
             
@@ -153,7 +169,7 @@
       
         
       </div>
-      <div class="card-footer {% if order.state == 'p' %}border-warning-subtle{% else %}border-success-subtle{% endif %} p-2 d-flex align-items-center justify-content-between ">
+      <div class="card-footer p-2 d-flex align-items-end justify-content-between ">
         <p class=" mb-0 small lh-sm     ">
           <span class="d-block mb-0">{{order.total_items}} Servicios</span>
           </p>

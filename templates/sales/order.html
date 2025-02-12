@@ -3,7 +3,10 @@
 {% block title %} Ventas {% endblock %}
 {% block contend %}
        {% include "sales/orderDelete/modalOrderDelete.html" %}
-
+       {% include "sales/orderSold/modalOrderSold.html" %}
+       {% include "sales/orderUpdate/offcanvasRightOrderUpdate.html" %}
+       {% include "sales/serviceOrderUpdate/offcanvasRightServiceOrderUpdate.html" %}
+       
 
   <div class="w-100 d-flex justify-content-between align-items-center my-2" >
     <div class="input-group" style="min-width: 200px;max-width: 300px;">
@@ -55,7 +58,7 @@
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
-    <div class="w-100 " id="OrderResults">
+    <div class="w-100 mt-3" id="OrderResults">
       {% include "sales/order_result.html" %}
     </div>  
     </div>
