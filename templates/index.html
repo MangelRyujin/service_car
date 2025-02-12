@@ -6,6 +6,7 @@
 
 
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 g-3 pt-2 mb-4 pb-4 ">
+  {% if request.user|has_group:"administrador"%}
     <div class="col">
       <div class="h-100 p-3 bg-body-tertiary border rounded-3">
         <h2>Usuarios</h2>
@@ -67,6 +68,7 @@
         </div>
         </div>
       </div>
+      {% endif %}
       <div class="col">
         <div class="h-100 p-3 bg-body-tertiary border rounded-3">
           <h2>Ventas</h2>
