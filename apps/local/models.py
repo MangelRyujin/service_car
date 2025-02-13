@@ -1,9 +1,25 @@
 from django.db import models
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator,MaxValueValidator
 from apps.account.models import User
 from apps.service.models import Service
 
 # Create your models here.
+
+
+class Client(models.Model):
+    email=models.EmailField(max_length=100,unique=True)
+    full_name=models.CharField(max_length=150, blank=True)
+    
+    class Meta:
+        verbose_name = "Client"
+        verbose_name_plural = "Clients"
+
+    def __str__(self):
+        return self.email
+    
+    @property
+    def visit(self):
+        return self.client_order.filter(is_paid=True).count()
 
 class Local(models.Model):
     name=models.CharField(max_length=100)
@@ -22,18 +38,17 @@ class Local(models.Model):
 class Order(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     created_user_pk=models.CharField(max_length=15)
-    created_user_username=models.CharField(max_length=15)
-    created_user_email=models.CharField(max_length=15)
-    client_email=models.EmailField(max_length=80,blank=True)
-    client_full_name=models.CharField(max_length=100,blank=True)
+    created_user_username=models.CharField(max_length=100)
+    created_user_email=models.CharField(max_length=100)
     client_car_plaque=models.CharField(max_length=20)
-    client_car_brand=models.CharField(max_length=15,blank=True)
-    client_car_model=models.CharField(max_length=15,blank=True)
+    client_car_brand=models.CharField(max_length=30,blank=True)
+    client_car_model=models.CharField(max_length=50,blank=True)
     local = models.ForeignKey(Local,on_delete=models.CASCADE, related_name='local_order')
     price = models.FloatField(default=0,validators=[MinValueValidator(0)])
+    discount = models.PositiveIntegerField(default=0,validators=[MinValueValidator(0),MaxValueValidator(100)])
     is_paid= models.BooleanField(default=False)
     image = models.ImageField(upload_to='order_image/')
-    
+    client = models.ForeignKey(Client, on_delete=models.PROTECT, null=True , blank=True ,related_name='client_order')
     
     class Meta:
         verbose_name = "Order"
@@ -46,7 +61,9 @@ class Order(models.Model):
     def total_price(self):
         items = sum(item.price for item in self.order_item.all()) or 0
         extra = sum(item.price for item in self.order_extra_item.all()) or 0
-        return items + extra
+        if self.discount > 0:
+            return round((items + extra)-((items + extra)* self.discount / 100),2)
+        return round(items + extra,2)
     
     @property
     def total_items(self):

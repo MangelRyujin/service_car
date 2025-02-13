@@ -26,6 +26,7 @@ urlpatterns = [
     re_path(r'^media/(?P<path>.*)$',serve,{'document_root':settings.MEDIA_ROOT}),
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
     path('login/',login_view,name='login_view'),
+    
     path('logout/',LogoutView.as_view(),name='logout'),
     path('change_password/',change_password_view,name='change_password_view'),
     path('change_password_form/',change_password_form,name='change_password_form'),

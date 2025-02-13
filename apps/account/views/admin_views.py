@@ -7,9 +7,9 @@ from apps.account.models import User
 from apps.account.filters import AdminFilter
 from apps.account.forms.admin_forms import  SingUpForm,ChangeAdminForm,ChangeUserPersonalInformation
 from django.contrib.auth.forms import AdminPasswordChangeForm
-from django.core.paginator import Paginator
 import logging
 
+from apps.local.forms.client_forms import CreateClientForm
 from utils.paginator import _create_paginator
 
 
@@ -20,8 +20,12 @@ from django.contrib.admin.views.decorators import staff_member_required
 @group_required('administrador')
 @staff_member_required(login_url='/')
 def admin_view(request):
-    groups = Group.objects.all()
-    response= render(request,'admin_templates/admin.html',{'groups': groups})
+    
+    context={
+        'client_form': CreateClientForm(),
+        'groups' : Group.objects.all()
+    }
+    response= render(request,'admin_templates/admin.html',context)
     response['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
     response['Pragma'] = 'no-cache'
     response['Expires'] = '0'

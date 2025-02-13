@@ -5,13 +5,19 @@ class CreateOrderForm(forms.ModelForm):
     
     class Meta:
         model = Order
-        fields = ['client_email','client_full_name','client_car_plaque','client_car_brand','client_car_model','image']
+        fields = ['client','client_car_plaque','client_car_brand','client_car_model','image']
 
 class UpdateOrderForm(forms.ModelForm):
     
     class Meta:
         model = Order
-        fields = ['client_email','client_full_name','client_car_plaque','client_car_brand','client_car_model','image']
+        fields = ['client','client_car_plaque','client_car_brand','client_car_model','image']
+        
+class OrderDiscountForm(forms.ModelForm):
+    
+    class Meta:
+        model = Order
+        fields = ['discount']
 
 class CreateItemForm(forms.ModelForm):
     
@@ -24,3 +30,5 @@ class CreateExtraItemForm(forms.ModelForm):
     class Meta:
         model = ExtraItem
         fields = ['description','price']
+        
+        

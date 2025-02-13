@@ -6,12 +6,16 @@ from django.contrib.auth.forms import PasswordChangeForm
 from apps.account.decorators import user_is_not_authenticated
 from django.contrib.admin.views.decorators import staff_member_required
 
+from apps.local.forms.client_forms import CreateClientForm
+
 
 # Dashboard view (index)
 
 @staff_member_required(login_url='/login/')
 def dashboard_view(request):
-    context={}
+    context={
+        'client_form': CreateClientForm()
+    }
     response= render(request,'index.html',context)
     response['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
     response['Pragma'] = 'no-cache'

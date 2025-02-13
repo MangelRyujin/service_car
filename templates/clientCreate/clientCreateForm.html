@@ -1,0 +1,61 @@
+{% load static %}
+
+<div class="modal-header">
+  <h5 class="modal-title">Crear cliente</h5>
+  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body border-0 flex-nowrap ">
+{% if client_form %}
+  <form class="w-100"
+        hx-post="{% url 'client_create' %}"
+        hx-target="#ClientCreate"
+        hx-trigger="submit"
+        hx-indicator="#spinnerClientCreate">
+        {% csrf_token %}
+        <div class="col-12">
+          <label for="EmailClientCreate" class="form-label">Email</label>
+          <input type="email" required class="form-control" value="{% if form.instance.email %}{{form.instance.email}}{% endif %}"  name="email" id="EmailClientCreate" placeholder="Email">
+          {% if client_form.email.errors %}
+          <div class="alert alert-danger mt-2">
+              {% for error in client_form.email.errors %}
+                  {{ error }}
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+        <div class="col-12  mt-4 ">
+          <label for="FullNameClientCreate" class="form-label">Nombres y apellidos (opcional)</label>
+          <input type="text" class="form-control" value="{% if form.instance.full_name %}{{form.instance.full_name}}{% endif %}" name="full_name" id="FullNameClientCreate" placeholder="Nombres y apellidos">
+          {% if client_form.full_name.errors %}
+          <div class="alert alert-danger mt-2">
+              {% for error in client_form.full_name.errors %}
+                  {{ error }}
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+        {% if message %}
+            <div class="alert alert-dismissible alert-success d-flex align-items-center mb-0 mt-4  px-2 fade show" role="alert">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="me-2 bi-check-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                </svg>
+                <div class="small">
+                  {{message}}
+                </div>
+                <span type="button" class="btn-close px-2" data-bs-dismiss="alert" aria-label="Close"></span>
+              </div>
+             
+          {% endif %}
+        <div class="d-flex justify-content-between mt-4 gap-2">
+          <button type="submit" 
+            class="d-flex justify-content-center align-items-center btn btn-outline-primary btn-lg border-0 border-2 fs-6 text-decoration-none col-6 py-3 m-0 border-0"
+              >
+            <span id="spinnerClientCreate" class="htmx-indicator spinner-border spinner-border-sm me-2" ></span><strong>Sí, crear</strong>
+        </button>
+          <button type="button" class="btn btn-outline-danger btn-lg  fs-6 border-0 text-decoration-none col-6 py-3 m-0 " data-bs-dismiss="modal"><strong>No gracias</strong></button>
+        </div>
+        
+    </form>
+    {% endif %}
+</div>
+

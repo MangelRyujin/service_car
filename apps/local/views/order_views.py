@@ -2,8 +2,9 @@ from django.shortcuts import render,get_object_or_404
 from django.contrib.admin.views.decorators import staff_member_required
 import logging
 from apps.account.decorators import group_required
-from apps.local.forms.order_forms import CreateExtraItemForm, CreateItemForm, CreateOrderForm, UpdateOrderForm
-from apps.local.models import ExtraItem, Item, Order
+from apps.local.forms.client_forms import CreateClientForm
+from apps.local.forms.order_forms import CreateExtraItemForm, CreateItemForm, CreateOrderForm, OrderDiscountForm, UpdateOrderForm
+from apps.local.models import Client, ExtraItem, Item, Order
 from apps.service.models import Service
 logger = logging.getLogger(__name__)
 from django.db.models import Q
@@ -13,7 +14,11 @@ from django.utils.translation import gettext as _
 @group_required('administrador','gestor')
 @staff_member_required(login_url='/')
 def order_view(request):
-    context = {'orders':Order.objects.filter(is_paid=False,created_user_pk=str(request.user.pk)).order_by('-id')}
+    context = {
+        'orders':Order.objects.filter(is_paid=False,created_user_pk=str(request.user.pk)).order_by('-id'),
+        'clients': Client.objects.all(),
+        'client_form': CreateClientForm()
+               }
     response= render(request,'sales/order.html',context)
     response['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
     response['Pragma'] = 'no-cache'
@@ -35,8 +40,8 @@ def _show_order_order(request):
         request.session['keyword'] = keyword
 
     orders = Order.objects.filter(
-        Q(pk__icontains=keyword) | Q(client_email__icontains=keyword) |
-        Q(client_full_name__icontains=keyword) | Q(client_car_plaque__icontains=keyword) |
+        Q(pk__icontains=keyword) | Q(client__email__icontains=keyword) |
+        Q(client__full_name__icontains=keyword) | Q(client_car_plaque__icontains=keyword) |
         Q(client_car_brand__icontains=keyword) | Q(client_car_model__icontains=keyword) |
         Q(order_item__service__name__icontains=keyword) | Q(order_extra_item__description__icontains=keyword)
         ,created_user_pk=str(request.user.pk) ,is_paid=False
@@ -75,6 +80,9 @@ def order_create(request):
             order.created_user_email=request.user.email
             order.save()
             context['message']="Orden creada correctamente"
+        else:
+            print(form.errors)
+    context['clients']=Client.objects.all()
     return render(request,'sales/orderCreate/orderCreateCheckForm.html',context) 
 
 # Local order delete btn
@@ -98,8 +106,8 @@ def order_update(request,pk):
     order=get_object_or_404(Order,pk=pk,created_user_pk = str(request.user.pk))
     context={
         'order':order,
-        'form': UpdateOrderForm(instance=order)
-        
+        'form': UpdateOrderForm(instance=order),
+        'clients': Client.objects.all()
     }  
     if request.method == "POST":
         form=UpdateOrderForm(request.POST,request.FILES,instance=order)
@@ -196,3 +204,22 @@ def order_sold(request,pk):
         order.save()
         context['message']="Pago completado con éxito"
     return render(request,'sales/orderSold/orderSoldVerify.html',context) 
+
+# order discount
+@group_required('gestor')
+@staff_member_required(login_url='/')
+def order_discount(request,pk):
+    order = get_object_or_404(Order,pk=pk,is_paid=False)
+    context = {
+        'order': order,
+        'discount_form': OrderDiscountForm(instance=order)
+    }
+    if request.method == "POST":
+        form = OrderDiscountForm(request.POST,instance=order)
+        if form.is_valid():
+            form.save()
+            context['message']="Descuento añadido correctamente"
+        else:
+            print(form.errors)
+
+    return render(request,'sales/orderDiscount/orderDiscountForm.html',context) 

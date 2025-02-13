@@ -16,6 +16,6 @@ class ExtraItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'created_at', 'client_email','client_car_plaque', 'local','is_paid','price']
+    list_display = ['pk', 'created_at', 'client','client_car_plaque', 'local','is_paid','price']
     list_per_page = 200
     inlines = [ItemInline,ExtraItemInline]

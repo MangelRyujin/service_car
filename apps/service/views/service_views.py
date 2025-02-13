@@ -4,6 +4,7 @@ from django.core.paginator import Paginator
 import logging
 
 from apps.account.models import User
+from apps.local.forms.client_forms import CreateClientForm
 from apps.service.filters import ServiceFilter
 from apps.service.forms.service_forms import CreateServiceForm, UpdateServiceForm
 from apps.service.models import Service
@@ -15,7 +16,10 @@ from django.contrib.admin.views.decorators import staff_member_required
 @group_required('administrador')
 @staff_member_required(login_url='/')
 def service_view(request):
-    response= render(request,'service_templates/service.html')
+    context={
+        'client_form': CreateClientForm()
+    }
+    response= render(request,'service_templates/service.html',context)
     response['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
     response['Pragma'] = 'no-cache'
     response['Expires'] = '0'

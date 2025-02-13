@@ -5,6 +5,7 @@ import logging
 
 from apps.account.models import User
 from apps.local.filters import LocalFilter
+from apps.local.forms.client_forms import CreateClientForm
 from apps.local.forms.local_forms import CreateLocalForm, UpdateLocalForm
 from apps.local.models import Local
 from utils.paginator import _create_paginator
@@ -15,18 +16,20 @@ from django.contrib.admin.views.decorators import staff_member_required
 @group_required('administrador')
 @staff_member_required(login_url='/')
 def local_view(request):
-    response= render(request,'local_templates/local.html')
+    response= render(request,'local_templates/local.html',{'client_form':CreateClientForm()})
     response['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
     response['Pragma'] = 'no-cache'
     response['Expires'] = '0'
     return response
 
 # Charge result table
+@group_required('administrador')
 @staff_member_required(login_url='/')
 def local_table_results(request):
     return  render(request,'local_templates/local_table_results.html',context=_show_local(request))
        
 # category create form
+@group_required('administrador')
 @staff_member_required(login_url='/')
 def local_create(request):
     context={
@@ -47,6 +50,7 @@ def local_create(request):
 
 
 # category update forms
+@group_required('administrador')
 @staff_member_required(login_url='/')
 def local_update(request,pk):
     local = Local.objects.filter(pk=pk).first()
@@ -59,6 +63,7 @@ def local_update(request,pk):
     return render(request,'local_templates/actions/localUpdate/localUpdateForm.html',context) 
 
 # local main information update form
+@group_required('administrador')
 @staff_member_required(login_url='/')
 def local_form_update(request,pk):
     context={
@@ -83,6 +88,7 @@ def local_form_update(request,pk):
 
 
 # Delete result table
+@group_required('administrador')
 @staff_member_required(login_url='/')
 def local_delete(request,pk):
     local = Local.objects.filter(pk=pk).first()
@@ -101,6 +107,7 @@ def local_delete(request,pk):
 
 
 # Show local table
+@group_required('administrador')
 @staff_member_required(login_url='/')
 def _show_local(request):
     return _create_paginator(request,LocalFilter(request.GET, queryset=Local.objects.all().order_by('-id')))

@@ -31,7 +31,7 @@
     
   </head>
   <body>
-    
+    {% include "clientCreate/modalClientCreate.html" %}
     
     <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
       <symbol id="check2" viewBox="0 0 16 16">
@@ -78,6 +78,19 @@
           <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5"/>
         </svg>
       </a>
+    </li>
+    
+  </ul>
+  <ul class="d-md-none navbar-nav flex-row bg-dark border-2 border-dark-subtle border  bd-mode-toggle rounded-circle shadow mb-2 " id="create-client">
+      
+    <li class="nav-item text-nowrap " >
+      <button  href="#" class="nav-link ps-2 pe-2 d-flex justify-content-center align-items-center " 
+      data-bs-toggle="modal" data-bs-target="#modalClientCreate" >
+        
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="text-white bi-people-fill" viewBox="0 0 16 16">
+          <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
+        </svg>
+      </button>
     </li>
     
   </ul>
@@ -131,17 +144,7 @@
       </div>
       
     </li>
-    <li class="list-unstyled text-body-secondary mx-1" >
-        <div id="notificationStock"
-          {% comment %} hx-get="{% url 'notification_empty_view' %}" {% endcomment %}
-          hx-swap="innerHTML"
-          hx-trigger="load, every 60s"
-          hx-scheduler="true"
-          hx-target="#notificationStock"
-           >
-            {% comment %} {% include "notifications_templates/notifications_icon.html" %} {% endcomment %}
-          </div>
-      </li>
+    
     <li class="list-unstyled text-body-secondary me-2 me-sm-3" >
       
       <div class="nav-item dropdown">
@@ -279,6 +282,24 @@
         </svg>
           Ventas
         </a>
+            </li>
+            <li class="d-hide card mt-3 shadow-sm d-none d-md-flex">
+              <div class="card-body p-2">
+                <h5 class="d-flex align-items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="me-2 bi-people-fill" viewBox="0 0 16 16">
+                    <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
+                  </svg>
+                  Cliente
+                  
+                </h5>
+                <span>Añadir datos del cliente. Estos tendrán ofertas de ventas</span>
+                <button class="btn btn-outline-primary w-100 mt-3"
+                data-bs-toggle="modal" data-bs-target="#modalClientCreate" 
+                >
+                  Añadir cliente
+                </button>
+              </div>
+              
             </li>
            
             
