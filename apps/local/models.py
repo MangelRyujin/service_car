@@ -41,8 +41,6 @@ class Order(models.Model):
     created_user_username=models.CharField(max_length=100)
     created_user_email=models.CharField(max_length=100)
     client_car_plaque=models.CharField(max_length=20)
-    client_car_brand=models.CharField(max_length=30,blank=True)
-    client_car_model=models.CharField(max_length=50,blank=True)
     local = models.ForeignKey(Local,on_delete=models.CASCADE, related_name='local_order')
     price = models.FloatField(default=0,validators=[MinValueValidator(0)])
     discount = models.PositiveIntegerField(default=0,validators=[MinValueValidator(0),MaxValueValidator(100)])
@@ -89,7 +87,7 @@ class Item(models.Model):
 
 class ExtraItem(models.Model):
     order=models.ForeignKey(Order,on_delete=models.CASCADE, related_name='order_extra_item')
-    description=models.TextField()
+    description=models.CharField(max_length=500)
     price = models.FloatField(default=1,validators=[MinValueValidator(0)])
     
     class Meta:

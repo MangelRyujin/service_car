@@ -1,14 +1,17 @@
 from django.shortcuts import render,get_object_or_404
 from django.contrib.admin.views.decorators import staff_member_required
 import logging
+from django.forms import modelformset_factory
 from apps.account.decorators import group_required
 from apps.local.forms.client_forms import CreateClientForm
-from apps.local.forms.order_forms import CreateExtraItemForm, CreateItemForm, CreateOrderForm, OrderDiscountForm, UpdateOrderForm
+from apps.local.forms.order_forms import CreateExtraItemForm, CreateItemForm, CreateOrderForm, ExtraItemMarksForm, ItemMarksForm, OrderDiscountForm, UpdateOrderForm
 from apps.local.models import Client, ExtraItem, Item, Order
+from apps.local.utils.order_create import create_order
 from apps.service.models import Service
 logger = logging.getLogger(__name__)
 from django.db.models import Q
 from django.utils.translation import gettext as _
+from django.db import transaction, IntegrityError
   
 # order index 
 @group_required('administrador','gestor')
@@ -42,7 +45,6 @@ def _show_order_order(request):
     orders = Order.objects.filter(
         Q(pk__icontains=keyword) | Q(client__email__icontains=keyword) |
         Q(client__full_name__icontains=keyword) | Q(client_car_plaque__icontains=keyword) |
-        Q(client_car_brand__icontains=keyword) | Q(client_car_model__icontains=keyword) |
         Q(order_item__service__name__icontains=keyword) | Q(order_extra_item__description__icontains=keyword)
         ,created_user_pk=str(request.user.pk) ,is_paid=False
         
@@ -64,26 +66,41 @@ def order_detail(request,pk):
         context['order']=[]
     return render(request,'sales/order_component.html',context) 
 
+
+
+      
 # Local order create btn
 @group_required('gestor')
 @staff_member_required(login_url='/')
 def order_create(request):
-    context=_show_order_order(request)
+    context={}
+    MarksFormset = modelformset_factory(Item, form=ItemMarksForm)
+    formset = MarksFormset(queryset= Item.objects.none(), prefix='items')
+    ExtraMarksFormset = modelformset_factory(ExtraItem, form=ExtraItemMarksForm)
+    extra_formset=ExtraMarksFormset(queryset= ExtraItem.objects.none(), prefix='extraitems')
+    form = CreateOrderForm()
     if request.method == "POST":
-        local=request.user.local_set.first()
-        form = CreateOrderForm(request.POST,request.FILES)
-        if form.is_valid():
-            order = form.save(commit=False)
-            order.local=local
-            order.created_user_pk=request.user.pk
-            order.created_user_username=request.user.username
-            order.created_user_email=request.user.email
-            order.save()
-            context['message']="Orden creada correctamente"
-        else:
-            print(form.errors)
+        extra_formset = ExtraMarksFormset(request.POST or None, queryset= ExtraItem.objects.none(), prefix='extraitems')
+        formset = MarksFormset(request.POST or None, queryset= Item.objects.none(), prefix='items')
+        form = CreateOrderForm(request.POST or None,request.FILES)
+        local=request.user.local_set.first() 
+        if form.is_valid() and formset.is_valid() and extra_formset.is_valid():
+                try:
+                    with transaction.atomic():
+                        create_order(request,form,local,formset,extra_formset)
+                        form = CreateOrderForm()
+                        context['message']="Orden creada correctamente"
+                        formset = MarksFormset(queryset= Item.objects.none(), prefix='items')
+                        extra_formset=ExtraMarksFormset(queryset= ExtraItem.objects.none(), prefix='extraitems')
+                except IntegrityError:
+                    pass
     context['clients']=Client.objects.all()
+    context['services']=Service.objects.filter(is_active=True).order_by('name')
+    context['formset'] = formset
+    context['extra_formset'] = extra_formset
+    context['form'] = form
     return render(request,'sales/orderCreate/orderCreateCheckForm.html',context) 
+
 
 # Local order delete btn
 @group_required('gestor')

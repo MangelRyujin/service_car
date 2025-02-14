@@ -28,11 +28,7 @@
                         </option>
                       {% endfor %}
                     </select>
-                    <script>
-                      $(document).ready(function() {
-                          $('.selectpicker').selectpicker();
-                        });
-                    </script>
+                    
               </div>
               {% if form.client.errors %}
               <div class="alert alert-danger mt-2">
@@ -77,32 +73,156 @@
               {% endif %}
             </div>
             
+            
+            <p  class="mt-4 pb-0 mb-0">Servicios</p>
+            <table class="table form-table table-bordered table-sm mt-2">
+              <thead class="text-center">
+              <tr>
+                  <th>
+                    <select class="form-control selectpicker "  
+                          data-show-subtext="true" 
+                          data-live-search="true"
+                          required
+                          name="select-services"
+                          id="select-services">
+                          <option selected value=''  >
+                            Seleccionar servicio
+                          </option>
+                          {% for service in services %}
+                            <option  value="{{service.pk}}" {% if form_data.service.value|default:'' == service.pk|stringformat:'s' %}selected{% endif %}>
+                              {{service.name}} - $ {{service.price}}
+                            </option>
+                          {% endfor %}
+                          
+                        </select>
+                        
+                  </th>
+                  <th class="d-flex justify-content-center">
+                    <button type="button" class="mt-1 btn btn-sm btn-outline-success add-form-row d-flex justify-content-center align-items-center"
+                    id="{{ formset.prefix }}">
+                    <svg class="" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class=" bi-plus-circle" viewBox="0 0 16 16">
+                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                      <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                    </svg>
+            </button></th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for form_data in formset %}
+                  <tr class="item d-none">
+                      <td>
+                        
+                        
+                        <select class="form-control  formset-field if"  
+                          data-show-subtext="true" 
+                          data-live-search="true"
+                          name="{{ form_data.service.html_name }}"
+                          id="{{ form_data.service.id_for_label }}">
+                          
+                            <option selected value="none" >
+                              Servicio - $ 00.00
+                            </option>
+                          
+                        </select>
+                        
+                          
+                      </td>
+                      <td class="d-flex justify-content-center align-items-center ">
+                          <button type="button" class="btn btn-outline-danger btn-sm remove-form-row mt-1"
+                                  id="{{ formset.prefix }}">
+                            
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class=" bi-trash3-fill" viewBox="0 0 16 16">
+                                    <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                                  </svg>
+                          </button>
+                      </td>
+                  </tr>
+              {% endfor %}
+              <tr>
+                  <td colspan="9"
+                      style="border-left: none!important; border-right: none !important; border-bottom: none!important;">
+                      
+                  </td>
+              </tr>
+              </tbody>
+          </table>
+          {{ formset.management_form }}
+
+
+         <span  class="mt-4 pb-0 mb-0">Servicios extras (opcional)</span>
+          <table class="table form-table table-bordered table-sm mt-2">
            
-            <div class="col-12  mt-4 ">
-              <label for="BrandOrderCreate" class="form-label">Marca (opcional)</label>
-              <input type="text" class="form-control" value="{% if form.instance.client_car_brand %}{{form.instance.client_car_brand}}{% endif %}" name="client_car_brand" id="BrandOrderCreate" placeholder="Marca">
-              {% if form.client_car_brand.errors %}
-              <div class="alert alert-danger mt-2">
-                  {% for error in form.client_car_brand.errors %}
-                      {{ error }}
-                  {% endfor %}
-                </div>
-              {% endif %}
-            </div>
-            <div class="col-12  mt-4 ">
-              <label for="ModelCreate" class="form-label">Modelo (opcional)</label>
-              <input type="text" class="form-control" value="{% if form.instance.client_car_model %}{{form.instance.client_car_model}}{% endif %}" name="client_car_model" id="ModelCreate" placeholder="Modelo">
-              {% if form.client_car_model.errors %}
-              <div class="alert alert-danger mt-2">
-                  {% for error in form.client_car_model.errors %}
-                      {{ error }}
-                  {% endfor %}
-                </div>
-              {% endif %}
-            </div>
-            
-          
-            
+            <thead class="text-center">
+              
+            <tr >
+                <th class="pb-2">
+                  Descripción
+                </th>
+                <th  class="pb-2">
+                  Precio
+                </th>
+                <th class="d-flex justify-content-center">
+                  <button type="button" class="mt-1 btn btn-sm btn-outline-success extraitems-add-form-row d-flex justify-content-center align-items-center"
+                  id="{{ extra_formset.prefix }}">
+                  
+                  <svg class="" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class=" bi-plus-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                  </svg>
+          </button></th>
+            </tr>
+            </thead>
+            <tbody>
+             
+            {% for form_data in extra_formset %}
+                <tr class="extraitem  d-none">
+                    <td>
+                      <div class="col-12  ">
+                        
+                        <input type="text" class="form-control extraformset-field"  name="{{ form_data.description.html_name }}" id="{{ form_data.description.id_for_label }}" placeholder="Descripción"/>
+                      </div>
+
+                    </td>
+                    <td>
+                    <div class="col-12 ">
+                     <div class="input-group ">
+                        <input type="number" class="form-control extraformset-field"   name="{{ form_data.price.html_name }}" id="{{ form_data.price.id_for_label }}" min="0.01" step="0.01" placeholder="49.99">
+                        <label for="{{ form_data.price.id_for_label }}"  class="input-group-text">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-dollar" viewBox="0 0 16 16">
+                            <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z"/>
+                          </svg>
+                        </label>
+                      </div> 
+                      </div>
+                    </td>
+                    <td class="d-flex justify-content-center align-items-center ">
+                        <button type="button" class="btn btn-outline-danger btn-sm extraitems-remove-form-row mt-1"
+                                id="{{ extra_formset.prefix }}">
+                          
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class=" bi-trash3-fill" viewBox="0 0 16 16">
+                                  <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                                </svg>
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="9"
+                    style="border-left: none!important; border-right: none !important; border-bottom: none!important;">
+                    
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        {{ extra_formset.management_form }}
+
+
+
+
+
+
+
+
               
             {% if message %}
             <div class="alert alert-dismissible alert-success d-flex align-items-center mb-0 mt-2  px-2 fade show" role="alert">
@@ -144,5 +264,9 @@
             </small>
             </form>
             
-            
+            <script>
+              $(document).ready(function() {
+                  $('.selectpicker').selectpicker();
+                });
+            </script>
           
