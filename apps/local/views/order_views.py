@@ -84,6 +84,9 @@ def order_create(request):
         formset = MarksFormset(request.POST or None, queryset= Item.objects.none(), prefix='items')
         form = CreateOrderForm(request.POST or None,request.FILES)
         local=request.user.local_set.first() 
+        print(request.POST['extraitems-TOTAL_FORMS'])
+       
+        # print(request.POST)
         if form.is_valid() and formset.is_valid() and extra_formset.is_valid():
                 try:
                     with transaction.atomic():
@@ -94,6 +97,11 @@ def order_create(request):
                         extra_formset=ExtraMarksFormset(queryset= ExtraItem.objects.none(), prefix='extraitems')
                 except IntegrityError:
                     pass
+        else:
+                print(form.errors)
+                print(formset.errors)
+                print(extra_formset.errors)
+                
     context['clients']=Client.objects.all()
     context['services']=Service.objects.filter(is_active=True).order_by('name')
     context['formset'] = formset

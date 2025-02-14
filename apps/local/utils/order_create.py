@@ -16,5 +16,9 @@ def create_order(request,form,local,formset,extra_formset):
     for extra_object in extra_formset:
                 item = extra_object.save(commit=False)
                 item.order = order
-                item.save()
+                print(item.description)
+                print(item.price)
+                if item.description is not None and item.price is not None:
+                    item.save()
+                
     

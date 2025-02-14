@@ -53,8 +53,7 @@ class ExtraItemMarksForm(forms.ModelForm):
             'price'
 		]
 
-		widgets = {
-			'service': forms.CharField(max_length=500),
-            'price': forms.NumberInput(
-               ),
-		}
+		def __init__(self, *args, **kwargs):
+                    super().__init__(*args, **kwargs)
+                    self.fields['description'].required = False
+                    self.fields['price'].required = False

@@ -87,8 +87,8 @@ class Item(models.Model):
 
 class ExtraItem(models.Model):
     order=models.ForeignKey(Order,on_delete=models.CASCADE, related_name='order_extra_item')
-    description=models.CharField(max_length=500)
-    price = models.FloatField(default=1,validators=[MinValueValidator(0)])
+    description=models.CharField(max_length=500 , blank=True,null=True)
+    price = models.FloatField(default=1,validators=[MinValueValidator(0)], blank=True,null=True)
     
     class Meta:
         verbose_name = "Extra Item"
