@@ -71,7 +71,7 @@
                   <li>
                   
                   
-                    <li class=" p-1"><a class="dropdown-item rounded d-flex align-items-center "
+                    {% comment %} <li class=" p-1"><a class="dropdown-item rounded d-flex align-items-center "
                       href="#"
                       data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightServiceOrderCreate" aria-controls="offcanvasRight"
                       hx-get="{% url 'order_item_create' pk=order.pk %}"
@@ -84,7 +84,7 @@
                       </svg>
                         Añadir servicio</a></li>
                       
-                    <li>
+                    <li> {% endcomment %}
                     
             
                 <hr class="dropdown-divider"></li>

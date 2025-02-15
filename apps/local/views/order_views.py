@@ -4,7 +4,7 @@ import logging
 from django.forms import modelformset_factory
 from apps.account.decorators import group_required
 from apps.local.forms.client_forms import CreateClientForm
-from apps.local.forms.order_forms import CreateExtraItemForm, CreateItemForm, CreateOrderForm, ExtraItemMarksForm, ItemMarksForm, OrderDiscountForm, UpdateOrderForm
+from apps.local.forms.order_forms import CreateExtraItemForm, CreateItemForm, CreateOrderForm, ExtraItemMarksForm,  ItemMarksForm, OrderDiscountForm, UpdateExtraItemForm, UpdateOrderForm
 from apps.local.models import Client, ExtraItem, Item, Order
 from apps.local.utils.order_create import create_order
 from apps.service.models import Service
@@ -55,7 +55,7 @@ def _show_order_order(request):
     }
     return context
 
-# Local order detail 
+#  order detail 
 @group_required('gestor')
 @staff_member_required(login_url='/')
 def order_detail(request,pk):
@@ -69,7 +69,7 @@ def order_detail(request,pk):
 
 
       
-# Local order create btn
+#  order create btn
 @group_required('gestor')
 @staff_member_required(login_url='/')
 def order_create(request):
@@ -97,10 +97,6 @@ def order_create(request):
                         extra_formset=ExtraMarksFormset(queryset= ExtraItem.objects.none(), prefix='extraitems')
                 except IntegrityError:
                     pass
-        else:
-                print(form.errors)
-                print(formset.errors)
-                print(extra_formset.errors)
                 
     context['clients']=Client.objects.all()
     context['services']=Service.objects.filter(is_active=True).order_by('name')
@@ -110,7 +106,7 @@ def order_create(request):
     return render(request,'sales/orderCreate/orderCreateCheckForm.html',context) 
 
 
-# Local order delete btn
+#  order delete btn
 @group_required('gestor')
 @staff_member_required(login_url='/')
 def order_delete(request,pk):
@@ -124,16 +120,21 @@ def order_delete(request,pk):
         return render(request,'sales/order_component.html',context) 
     return render(request,'sales/orderDelete/orderDeleteVerify.html',context) 
 
-# Local order update
+#  order update
 @group_required('gestor')
 @staff_member_required(login_url='/')
 def order_update(request,pk):
     order=get_object_or_404(Order,pk=pk,created_user_pk = str(request.user.pk))
+    
     context={
         'order':order,
         'form': UpdateOrderForm(instance=order),
-        'clients': Client.objects.all()
-    }  
+        'clients': Client.objects.all(),
+        'services':Service.objects.filter(is_active=True),
+        'item_form': CreateItemForm(),
+        'extra_form': CreateExtraItemForm()
+    }
+    
     if request.method == "POST":
         form=UpdateOrderForm(request.POST,request.FILES,instance=order)
         if form.is_valid():
@@ -142,7 +143,9 @@ def order_update(request,pk):
         return render(request,'sales/orderUpdate/orderUpdateCheckForm.html',context) 
     return render(request,'sales/orderUpdate/orderUpdateCheckForm.html',context) 
 
-# Local order item create
+
+
+#  order item create
 @group_required('gestor')
 @staff_member_required(login_url='/')
 def order_item_create(request,pk):
@@ -168,7 +171,72 @@ def order_item_create(request,pk):
 
 
 
-# Local order item create
+#  order item create
+@group_required('gestor')
+@staff_member_required(login_url='/')
+def update_order_item_create(request,pk):
+    order = get_object_or_404(Order,pk=pk,created_user_pk = str(request.user.pk))
+    form=CreateItemForm()
+    context={
+        'order': order,
+        'services': Service.objects.filter(is_active=True).order_by('name') ,
+        
+    }   
+    if request.method == "POST":
+        form= CreateItemForm(request.POST)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.order=order
+            item.price=item.service.price
+            item.save()
+            context['message']="Servicio añadido con éxito"
+    context['item_form']=form
+    
+    return render(request,'sales/orderUpdate/orderUpdateItems.html',context) 
+
+
+
+#  order item create
+@group_required('gestor')
+@staff_member_required(login_url='/')
+def update_order_extra_item_create(request,pk):
+    order = get_object_or_404(Order,pk=pk,created_user_pk = str(request.user.pk))
+    form=CreateExtraItemForm()
+    context={
+        'order': order,
+        'extra_form':form
+    }   
+    if request.method == "POST":
+        form= CreateExtraItemForm(request.POST)
+        if form.is_valid():
+            extra_item = form.save(commit=False)
+            extra_item.order=order
+            extra_item.save()
+            context['extra_message_create']="Servicio extra añadido con éxito"
+    context['form']=form
+    return render(request,'sales/orderUpdate/orderUpdateExtraItems.html',context) 
+
+
+#  order item create
+@group_required('gestor')
+@staff_member_required(login_url='/')
+def update_order_extra_item_update(request,pk):
+    extra_item = get_object_or_404(ExtraItem,pk=pk)
+    form=UpdateExtraItemForm()
+    context={
+        'order': extra_item.order,
+        'extra_item':extra_item
+    }   
+    if request.method == "POST":
+        form= UpdateExtraItemForm(request.POST,instance=extra_item)
+        if form.is_valid():
+            extra_item = form.save()
+            context['extra_message_update']="Servicio editado correctamente"
+    context['form']=form
+    return render(request,'sales/orderUpdate/extraItemForm.html',context) 
+
+
+#  order item create
 @group_required('gestor')
 @staff_member_required(login_url='/')
 def order_extra_item_create(request,pk):
@@ -189,7 +257,7 @@ def order_extra_item_create(request,pk):
     return render(request,'sales/serviceOrderUpdate/extraServiceOrderUpdateCheckForm.html',context) 
 
 
-# Local order item delete btn
+#  order item delete btn
 @group_required('gestor')
 @staff_member_required(login_url='/')
 def order_item_delete(request,pk):
@@ -202,7 +270,23 @@ def order_item_delete(request,pk):
         item.delete()
     return render(request,'sales/order_component.html',context) 
 
-# Local order extra item delete btn
+
+@group_required('gestor')
+@staff_member_required(login_url='/')
+def update_order_item_delete(request,pk):
+    item=get_object_or_404(Item,pk=pk)
+    order=item.order
+    context={
+        'order':order,
+        'services':Service.objects.filter(is_active=True),
+        'item_form': CreateItemForm()
+    }  
+    if request.method == "POST":
+        item.delete()
+        context['message']='Editando servicios correctamente'
+    return render(request,'sales/orderUpdate/orderUpdateItems.html',context)
+
+#  order extra item delete btn
 @group_required('gestor')
 @staff_member_required(login_url='/')
 def order_extra_item_delete(request,pk):
@@ -215,7 +299,25 @@ def order_extra_item_delete(request,pk):
         extra_item.delete()
     return render(request,'sales/order_component.html',context) 
 
-# Local order sold
+#  order extra item delete btn
+@group_required('gestor')
+@staff_member_required(login_url='/')
+def update_order_extra_item_delete(request,pk):
+    extra_item=get_object_or_404(ExtraItem,pk=pk)
+    order=extra_item.order
+    context={
+        'order':order,
+        'extra_item':extra_item
+    }  
+    if request.method == "POST":
+        extra_item.delete()
+        context['extra_item']=[]
+        context['extra_item_message_delete']="Servicio extra eliminado correctamente"
+    return render(request,'sales/orderUpdate/extraItemForm.html',context) 
+
+
+
+#  order sold
 @group_required('gestor')
 @staff_member_required(login_url='/')
 def order_sold(request,pk):
