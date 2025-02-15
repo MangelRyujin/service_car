@@ -12,7 +12,7 @@ from utils.paginator import _create_paginator
 logger = logging.getLogger(__name__)
 from django.contrib.admin.views.decorators import staff_member_required
 
-# category view (index)
+# local view (index)
 @group_required('administrador')
 @staff_member_required(login_url='/')
 def local_view(request):
@@ -28,7 +28,7 @@ def local_view(request):
 def local_table_results(request):
     return  render(request,'local_templates/local_table_results.html',context=_show_local(request))
        
-# category create form
+# local create form
 @group_required('administrador')
 @staff_member_required(login_url='/')
 def local_create(request):
@@ -49,7 +49,7 @@ def local_create(request):
     return render(request,'local_templates/actions/localCreate/localCreateForm.html',context) 
 
 
-# category update forms
+# local update forms
 @group_required('administrador')
 @staff_member_required(login_url='/')
 def local_update(request,pk):

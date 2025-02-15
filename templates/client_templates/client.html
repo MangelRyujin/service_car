@@ -1,0 +1,66 @@
+{% extends "base_admin.html" %}
+{% load static %}
+{% block title %} Clientes {% endblock %}
+{% block contend %}
+
+{% include 'client_templates/actions/clientUpdate/offcanvasRightClientUpdate.html' %}
+
+
+
+
+
+
+
+<form class="row g-3 pb-4"
+      id="ClientFilters"
+      hx-get="{% url 'client_table_results' %}"
+      hx-target="#ClientTableResults"
+      hx-swap="innerHTML"
+      hx-trigger="submit"
+      hx-indicator="#spinnerClientFilter,#spinner">
+
+<div class="col-12 col-sm-4 col-md-4 col-lg-3">
+  <label for="inputClientEmailFilter" class="form-label">Email</label>
+  <input type="text" name="email" class="form-control" id="inputClientEmailFilter" placeholder="Email">
+</div>
+<div class="col-12 col-sm-4 col-md-4 col-lg-3">
+  <label for="inputClientFullNameFilter" class="form-label">Nombres y apellidos</label>
+  <input type="text" name="full_name" class="form-control" id="inputClientFullNameFilter" placeholder="Nombres y apellidos">
+</div>
+
+
+<div class="col-12">
+  <small class=" w-100 d-flex justify-content-end mt-3">
+      <button type="submit" class="btn d-flex justify-content-center align-items-center btn-outline-primary shadow-sm border-2 border-primary px-5">
+        <span id="spinnerClientFilter" class="htmx-indicator spinner-border spinner-border-sm me-2" ></span>Filtrar</button>
+  </small>
+</div>
+</form>
+
+
+
+
+
+
+
+<div 
+hx-get="{% url 'client_table_results' %}"
+hx-target="#ClientTableResults"
+hx-trigger="load"
+hx-swap="innerHTML"
+hx-indicator="#spinner"></div>
+
+<div class="w-100 position-relative d-flex justify-content-center align-items-center">
+<div id="spinner" class="htmx-indicator w-100 h-100  loadding-blur position-absolute z-10 d-flex justify-content-center align-items-center">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+<div class="w-100" id="ClientTableResults">
+  
+</div> 
+</div>
+ 
+{% endblock contend %}
+
+        

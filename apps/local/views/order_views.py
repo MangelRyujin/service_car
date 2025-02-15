@@ -84,9 +84,6 @@ def order_create(request):
         formset = MarksFormset(request.POST or None, queryset= Item.objects.none(), prefix='items')
         form = CreateOrderForm(request.POST or None,request.FILES)
         local=request.user.local_set.first() 
-        print(request.POST['extraitems-TOTAL_FORMS'])
-       
-        # print(request.POST)
         if form.is_valid() and formset.is_valid() and extra_formset.is_valid():
                 try:
                     with transaction.atomic():
@@ -347,6 +344,6 @@ def order_discount(request,pk):
             form.save()
             context['message']="Descuento añadido correctamente"
         else:
-            print(form.errors)
+            pass
 
     return render(request,'sales/orderDiscount/orderDiscountForm.html',context) 
