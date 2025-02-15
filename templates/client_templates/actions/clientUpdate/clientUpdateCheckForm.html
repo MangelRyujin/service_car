@@ -16,7 +16,7 @@
             {% csrf_token %}
               <div class="col-12 mt-4">
                 <label for="{{ form.email.id_for_label }}Update" class="form-label">Email</label>
-                <input type="text" name="email" value="{{ form.email.value }}" class="form-control" id="{{ form.email.id_for_label }}Update" placeholder="Email">
+                <input type="email" name="email" value="{{ form.email.value }}" class="form-control" id="{{ form.email.id_for_label }}Update" placeholder="Email">
                 {% if form.email.errors %}
                     <div class="alert alert-danger mt-2">
                         {% for error in form.email.errors %}
