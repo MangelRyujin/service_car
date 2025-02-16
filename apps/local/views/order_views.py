@@ -56,7 +56,7 @@ def _show_order_order(request):
     return context
 
 #  order detail 
-@group_required('gestor')
+@group_required('administrador','gestor')
 @staff_member_required(login_url='/')
 def order_detail(request,pk):
     context={
@@ -70,7 +70,7 @@ def order_detail(request,pk):
 
       
 #  order create btn
-@group_required('gestor')
+@group_required('administrador','gestor')
 @staff_member_required(login_url='/')
 def order_create(request):
     context={}
@@ -104,7 +104,7 @@ def order_create(request):
 
 
 #  order delete btn
-@group_required('gestor')
+@group_required('administrador','gestor')
 @staff_member_required(login_url='/')
 def order_delete(request,pk):
     order=Order.objects.filter(pk=pk,created_user_pk = str(request.user.pk)).first()
@@ -118,7 +118,7 @@ def order_delete(request,pk):
     return render(request,'sales/orderDelete/orderDeleteVerify.html',context) 
 
 #  order update
-@group_required('gestor')
+@group_required('administrador','gestor')
 @staff_member_required(login_url='/')
 def order_update(request,pk):
     order=get_object_or_404(Order,pk=pk,created_user_pk = str(request.user.pk))
@@ -143,7 +143,7 @@ def order_update(request,pk):
 
 
 #  order item create
-@group_required('gestor')
+@group_required('administrador','gestor')
 @staff_member_required(login_url='/')
 def order_item_create(request,pk):
     order = get_object_or_404(Order,pk=pk,created_user_pk = str(request.user.pk))
@@ -169,7 +169,7 @@ def order_item_create(request,pk):
 
 
 #  order item create
-@group_required('gestor')
+@group_required('administrador','gestor')
 @staff_member_required(login_url='/')
 def update_order_item_create(request,pk):
     order = get_object_or_404(Order,pk=pk,created_user_pk = str(request.user.pk))
@@ -194,7 +194,7 @@ def update_order_item_create(request,pk):
 
 
 #  order item create
-@group_required('gestor')
+@group_required('administrador','gestor')
 @staff_member_required(login_url='/')
 def update_order_extra_item_create(request,pk):
     order = get_object_or_404(Order,pk=pk,created_user_pk = str(request.user.pk))
@@ -215,7 +215,7 @@ def update_order_extra_item_create(request,pk):
 
 
 #  order item create
-@group_required('gestor')
+@group_required('administrador','gestor')
 @staff_member_required(login_url='/')
 def update_order_extra_item_update(request,pk):
     extra_item = get_object_or_404(ExtraItem,pk=pk)
@@ -234,7 +234,7 @@ def update_order_extra_item_update(request,pk):
 
 
 #  order item create
-@group_required('gestor')
+@group_required('administrador','gestor')
 @staff_member_required(login_url='/')
 def order_extra_item_create(request,pk):
     order = get_object_or_404(Order,pk=pk,created_user_pk = str(request.user.pk))
@@ -255,7 +255,7 @@ def order_extra_item_create(request,pk):
 
 
 #  order item delete btn
-@group_required('gestor')
+@group_required('administrador','gestor')
 @staff_member_required(login_url='/')
 def order_item_delete(request,pk):
     item=get_object_or_404(Item,pk=pk)
@@ -268,7 +268,7 @@ def order_item_delete(request,pk):
     return render(request,'sales/order_component.html',context) 
 
 
-@group_required('gestor')
+@group_required('administrador','gestor')
 @staff_member_required(login_url='/')
 def update_order_item_delete(request,pk):
     item=get_object_or_404(Item,pk=pk)
@@ -284,7 +284,7 @@ def update_order_item_delete(request,pk):
     return render(request,'sales/orderUpdate/orderUpdateItems.html',context)
 
 #  order extra item delete btn
-@group_required('gestor')
+@group_required('administrador','gestor')
 @staff_member_required(login_url='/')
 def order_extra_item_delete(request,pk):
     extra_item=get_object_or_404(ExtraItem,pk=pk)
@@ -297,7 +297,7 @@ def order_extra_item_delete(request,pk):
     return render(request,'sales/order_component.html',context) 
 
 #  order extra item delete btn
-@group_required('gestor')
+@group_required('administrador','gestor')
 @staff_member_required(login_url='/')
 def update_order_extra_item_delete(request,pk):
     extra_item=get_object_or_404(ExtraItem,pk=pk)
@@ -315,7 +315,7 @@ def update_order_extra_item_delete(request,pk):
 
 
 #  order sold
-@group_required('gestor')
+@group_required('administrador','gestor')
 @staff_member_required(login_url='/')
 def order_sold(request,pk):
     order=get_object_or_404(Order,pk=pk)
@@ -330,7 +330,7 @@ def order_sold(request,pk):
     return render(request,'sales/orderSold/orderSoldVerify.html',context) 
 
 # order discount
-@group_required('gestor')
+@group_required('administrador','gestor')
 @staff_member_required(login_url='/')
 def order_discount(request,pk):
     order = get_object_or_404(Order,pk=pk,is_paid=False)

@@ -9,7 +9,7 @@
 <form class="row g-3  pb-4"
       method="GET"
       id="OrderFilters"
-      hx-get="{% url 'order_table_results' %}"
+      hx-get="{% url 'reports_order_table_results' %}"
       hx-target="#OrderTableResults"
       hx-swap="innerHTML"
       hx-trigger="submit"
@@ -46,8 +46,8 @@
         <label for="inputOrderLocalFilter" class="form-label">Instalación</label>
         <select id="inputOrderLocalFilter" name="local" class="form-select" aria-label="Default select example">
           <option value="" selected>Seleccionar instalación</option>
-          {% for locals in locals %}
-          <option value="{{locals.id}}">{{locals.name}}</option>
+          {% for local in locals %}
+          <option value="{{local.id}}">{{local.name}}</option>
           {% endfor %}
         </select>
       </div>
@@ -75,7 +75,7 @@
 
 
 <div 
-hx-get="{% url 'order_table_results' %}"
+hx-get="{% url 'reports_order_table_results' %}"
 hx-target="#OrderTableResults"
 hx-trigger="load"
 hx-swap="innerHTML"

@@ -11,6 +11,7 @@ urlpatterns = [
     path('sales/',include('apps.local.urls.order_urls')),
     path('clients/',include('apps.local.urls.client_urls')),
     path('all_orders/',include('apps.local.urls.reports_order_urls')),
+    path('local_orders/',include('apps.local.urls.reports_order_users_urls')),
 
 ]
 

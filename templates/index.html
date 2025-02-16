@@ -58,17 +58,29 @@
       </div>
       <div class="col">
         <div class="h-100 p-3 bg-body-tertiary border rounded-3">
+          <h2>Ventas completadas</h2>
+          <div class="mb-2 flex justify-content-center w-100">
+          <img src="{% static "img/orders.svg" %}" height="250" width="100%"/>
+          </div>
+          <p>Todas las ventas ya pagadas y procesadas.</p>
+          <div class="d-flex justify-content-end">
+            <a href="{% url "report_order_view" %}" class="btn btn-primary fw-bold" type="button">Ver más</a>
+        </div>
+        </div>
+      </div>
+      {% endif %}
+      <div class="col">
+        <div class="h-100 p-3 bg-body-tertiary border rounded-3">
           <h2>Reportes</h2>
           <div class="mb-2 flex justify-content-center w-100">
           <img src="{% static "img/reports.svg" %}" height="250" width="100%"/>
           </div>
           <p>Reportes de las ventas realizadas.</p>
           <div class="d-flex justify-content-end">
-            <a href="#" class="btn btn-primary fw-bold" type="button">Ver más</a>
+            <a href="{% url "report_order_users_view" %}" class="btn btn-primary fw-bold" type="button">Ver más</a>
         </div>
         </div>
       </div>
-      {% endif %}
       <div class="col">
         <div class="h-100 p-3 bg-body-tertiary border rounded-3">
           <h2>Ventas</h2>

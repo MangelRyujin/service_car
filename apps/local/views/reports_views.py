@@ -1,7 +1,6 @@
 from django.shortcuts import render,get_object_or_404
 from django.contrib.admin.views.decorators import staff_member_required
 from apps.local.filters import OrderFilter
-from apps.local.forms.client_forms import CreateClientForm
 from apps.local.models import Local, Order
 from utils.paginator import _create_paginator
 
@@ -22,7 +21,7 @@ def report_order_view(request):
 
 # Charge result table
 @staff_member_required(login_url='/')
-def order_table_results(request):
+def reports_order_table_results(request):
     return  render(request,'reports_templates/order_templates/order_table_results.html',context=_show_order(request))
 
 
@@ -34,7 +33,7 @@ def _show_order(request):
 
 # Detail user order table
 @staff_member_required(login_url='/')
-def order_detail(request,pk):
+def reports_order_detail(request,pk):
     order = get_object_or_404(Order,pk=pk)
     return  render(request,'reports_templates/order_templates/actions/orderDetail/orderDetail.html',{"order":order})
      
