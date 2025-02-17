@@ -81,9 +81,20 @@ function addForm(btn, prefix) {
         // Seleccionar la nueva opción
         selectNuevo.value = valor;
         selectNuevo.selected = true;
-        
+        btnCreeate=document.getElementById('CreateFormBtnOrder');
+        btnCreeate.classList.remove('disabled');
     } // End if
-
+    const select = document.getElementById('select-services');
+    var button = document.getElementsByClassName('select-add-form');
+    button[0].classList.remove('disabled');
+    select.selectedIndex = 0;
+    $(select).selectpicker('refresh');
+    // Array.from(select.options).forEach(option => {
+    //   option.selected = option.hasAttribute('selected');
+    // }); // Restablecer el valor del select a la opción por defecto
+    button[0].classList.add('disabled');
+    
+    
     return false;
 }
 
@@ -179,18 +190,18 @@ function addExtraForm(btn, prefix2) {
 
         // Update the total form count
         $("#id_" + prefix2 + "-TOTAL_FORMS").val(formCount2 + 1);
-        const extra_service = document.getElementsByClassName('extraitem d-none');
-        if (extra_service[0]) {
-            // extra_service[0].remove();
-            const btn = extra_service[0].querySelector('.extraitems-remove-form-row');
-            if (btn) {
-                    btn.click();
-                }
+        // const extra_service = document.getElementsByClassName('extraitem d-none');
+        // if (extra_service[0]) {
+        //     // extra_service[0].remove();
+        //     const btn = extra_service[0].querySelector('.extraitems-remove-form-row');
+        //     if (btn) {
+        //             btn.click();
+        //         }
        
-                deleteExtraForm($(this), String($('.extraitems-add-form-row').attr('id')));
+        //         deleteExtraForm($(this), String($('.extraitems-add-form-row').attr('id')));
             
     
-        }
+        // }
         
     } // End if
 
@@ -229,7 +240,8 @@ function deleteExtraForm(btn, prefix2) {
               });
           }
       } // End if
-
+      
+      
       return false;
   }
 // END EXTRA
@@ -259,3 +271,5 @@ function deleteExtraForm(btn, prefix2) {
       
       
   });
+
+  

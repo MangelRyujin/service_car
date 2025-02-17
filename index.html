@@ -1,0 +1,86 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .container { margin: 20px; font-family: Arial; }
+        select { padding: 5px; margin-right: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <select id="miSelect">
+            <option value="2">Opción 2</option>
+            <option value="3">Opción 3</option>
+            <option value="1" selected>Opción 1 (Original)</option>
+        </select>
+        <button onclick="restaurarSeleccion()">Restaurar Selección</button>
+    </div>
+
+    <script>
+        function restaurarSeleccion() {
+            const select = document.getElementById('miSelect');
+            // Buscar y seleccionar la opción que tiene el atributo 'selected'
+            Array.from(select.options).forEach(option => {
+                option.selected = option.hasAttribute('selected');
+            });
+        }
+    </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .container { margin: 20px; font-family: Arial; }
+        select { width: 200px; padding: 5px; }
+        .found { background-color: yellow; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Select con ID 'select-services' -->
+        <select id="select-services">
+            <option>Seleccione una opción</option>
+            <option>Opición 1</option>
+            <option>Opición 2</option>
+            <option>Opición 3</option>
+        </select>
+        
+        <!-- Elemento con la clase buscada -->
+        <div class="filter-option-inner-inner" style="margin-top: 10px;">
+            Este es el elemento con la clase filter-option-inner-inner
+        </div>
+        
+        <br>
+        <button onclick="buscarElemento()">Buscar Elemento</button>
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        function buscarElemento() {
+            const select = document.getElementById('select-services');
+            
+            // Método 1: Usando querySelector
+            const elemento1 = select.querySelector('.filter-option-inner-inner');
+            
+            // Método 2: Usando getElementsByClassName
+            const elementos2 = select.getElementsByClassName('filter-option-inner-inner');
+            
+            // Mostrar resultados
+            const resultadoDiv = document.getElementById('resultado');
+            resultadoDiv.innerHTML = `
+                <p>Método querySelector:</p>
+                <p>${elemento1 ? 'Elemento encontrado!' : 'No se encontró el elemento'}</p>
+                
+                <p>Método getElementsByClassName:</p>
+                <p>Se encontraron ${elementos2.length} elementos</p>
+            `;
+            
+            // Resaltar el elemento encontrado
+            if (elemento1) {
+                elemento1.classList.add('found');
+            }
+        }
+    </script>
+</body>
+</html>

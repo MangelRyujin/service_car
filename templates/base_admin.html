@@ -210,7 +210,7 @@
             </div>
           </div> 
           
-          <h5 class="ms-5 mt-1 ">Administración</h5>
+          <h5 class="ms-5 mt-1  ">Administración</h5>
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu" aria-label="Close">
             
           </button>
@@ -218,8 +218,8 @@
         <div class="offcanvas-body   d-md-flex flex-column p-0 pt-1 px-1  ">
           <ul class="nav nav-pills flex-column w-100 mb-auto  ">
             
-            <li class="mt-1">
-              <a href="{% url 'dashboard_view' %}" class="nav-link  fs-6   text-start {% if request.path == '/'%} active {% endif %}" >
+            <li class="mt-1 ">
+              <a href="{% url 'dashboard_view' %}" class="nav-link fw-bold  fs-6   text-start {% if request.path == '/'%} active {% endif %}" >
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="me-2 bi-speedometer2" viewBox="0 0 16 16">
                   <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4M3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707M2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10m9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5m.754-4.246a.39.39 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.39.39 0 0 0-.029-.518z"/>
                   <path fill-rule="evenodd" d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A8 8 0 0 1 0 10m8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3"/>
@@ -233,8 +233,8 @@
            
           
             {% if request.user|has_group:"administrador"%}
-            <li class="mt-1">
-              <a href="{% url "admin_view" %}" class="nav-link   fs-6 text-start  {% if request.path == '/admins/'%} active {% endif %}"
+            <li class="mt-1 ">
+              <a href="{% url "admin_view" %}" class="nav-link fw-bold   fs-6 text-start  {% if request.path == '/admins/'%} active {% endif %}"
         >
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="me-2 bi-person-workspace" viewBox="0 0 16 16">
           <path d="M4 16s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-5.95a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
@@ -243,8 +243,8 @@
           Usuarios
         </a>
             </li>
-            <li class="mt-1">
-              <a href="{% url "local_view" %}" class="nav-link   fs-6  text-start  {% if request.path == '/locals/'%} active {% endif %}"
+            <li class="mt-1 ">
+              <a href="{% url "local_view" %}" class="nav-link fw-bold   fs-6  text-start  {% if request.path == '/locals/'%} active {% endif %}"
         >
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="me-2 bi-house-door-fill" viewBox="0 0 16 16">
           <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5"/>
@@ -252,8 +252,8 @@
           Instalaciones
         </a>
             </li>
-            <li class="mt-1">
-                    <a href="{% url "service_view" %}" class="nav-link   fs-6  text-start  {% if request.path == '/services/'%} active {% endif %}"
+            <li class="mt-1 ">
+                    <a href="{% url "service_view" %}" class="nav-link fw-bold   fs-6  text-start  {% if request.path == '/services/'%} active {% endif %}"
               >
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="me-2 bi-grid-3x3-gap-fill" viewBox="0 0 16 16">
                 <path d="M1 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zM1 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zM1 12a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1z"/>
@@ -261,8 +261,8 @@
                 Servicios
               </a>
                   </li>
-                  <li class="mt-1">
-                    <a href="{% url "client_view" %}" class="nav-link   fs-6  text-start  {% if request.path == '/clients/'%} active {% endif %}"
+                  <li class="mt-1 ">
+                    <a href="{% url "client_view" %}" class="nav-link fw-bold   fs-6  text-start  {% if request.path == '/clients/'%} active {% endif %}"
               >
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="me-2 bi-people-fill" viewBox="0 0 16 16">
                 <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
@@ -271,8 +271,8 @@
               </a>
                   </li>
                   
-                  <li class="mt-1">
-                    <a href="{% url "report_order_view" %}" class="nav-link   fs-6  text-start {% if request.path == '/all_orders/'%} active {% endif %}">
+                  <li class="mt-1 ">
+                    <a href="{% url "report_order_view" %}" class="nav-link fw-bold   fs-6  text-start {% if request.path == '/all_orders/'%} active {% endif %}">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="me-2 bi-cart-check-fill" viewBox="0 0 16 16">
                         <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-1.646-7.646-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708"/>
                       </svg>
@@ -285,8 +285,8 @@
               </li>
         
             {% endif %}
-            <li class="mt-1">
-              <a href="{% url "report_order_users_view" %}" class="nav-link   fs-6  text-start {% if request.path == '/local_orders/'%} active {% endif %}">
+            <li class="mt-1 ">
+              <a href="{% url "report_order_users_view" %}" class="nav-link fw-bold   fs-6  text-start {% if request.path == '/local_orders/'%} active {% endif %}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="me-2 bi-clipboard-data-fill" viewBox="0 0 16 16">
                   <path d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z"/>
                   <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5zM10 8a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0zm-6 4a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0zm4-3a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0v-3a1 1 0 0 1 1-1"/>
@@ -296,7 +296,7 @@
         </li>
             
             <li>
-              <a href="{% url "order_view" %}" class="nav-link    text-start  {% if request.path == '/sales/'%} active {% endif %}"
+              <a href="{% url "order_view" %}" class="nav-link fw-bold    text-start  {% if request.path == '/sales/'%} active {% endif %}"
         >
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="me-2 bi-cart-fill" viewBox="0 0 16 16">
           <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>

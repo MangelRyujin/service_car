@@ -13,7 +13,7 @@
       <div class="card-header d-flex  justify-content-between p-2 align-items-center mb-1">
         <div class="d-flex flex-column justify-content-center gap-1 align-items-start w-100">
           <div class="d-flex justify-content-between w-100">
-            <span>#{{order.pk}}</span>
+            <span class="fw-bold">#{{order.pk}}</span>
             {% if order.client.visit > 4 %}
             <span class="cursor-pointer d-flex justify-content-center align-items-center  col-md-3 col-lg-2 me-0 px-3 fs-6 text-white position-relative" 
             data-bs-toggle="modal" data-bs-target="#modalOrderDiscount" 
@@ -102,8 +102,8 @@
             </div>
           </div>
           
-          <span class="d-block small lh-sm ">Placa: {% if order.client_car_plaque %}{{order.client_car_plaque}}{% else %}Sin asignar{% endif %}</span>
-          <span class="d-block small lh-sm ">{{order.created_at}}</span>
+          <span class="d-block fw-bold lh-sm ">Placa: {% if order.client_car_plaque %}{{order.client_car_plaque}}{% else %}Sin asignar{% endif %}</span>
+          <span class="d-block fw-bold lh-sm ">{{order.created_at}}</span>
         </div>
         
       </div>
@@ -113,12 +113,12 @@
           {% for item in order.order_item.all %}
             <div class="d-flex justify-content-between align-items-center py-1 ">
               <div class="d-flex align-items-center">
-                <p class=" mb-0 small lh-sm  ">
-                  <span class="d-block mb-0  small text-ellipsis-150">
+                <p class=" mb-0  lh-sm  ">
+                  <span class="d-block mb-0  fw-bold text-ellipsis-150">
                     {{item.service.name}}
                     
                   </span>
-                  <span class="small">$ {{item.price}}</span>
+                  <span class="fw-bold">$ {{item.price}}</span>
                 </p>
               </div>
               
@@ -145,11 +145,11 @@
             <div class="d-flex justify-content-between align-items-start py-1 ">
               <div class="d-flex align-items-center">
                 <p class=" mb-0 small lh-sm  ">
-                  <span class="d-block mb-0  small ">
+                  <span class="d-block mb-0  fw-bold ">
                     {{extra_item.description}}
                     
                   </span>
-                  <span class="small">$ {{extra_item.price}}</span>
+                  <span class="fw-bold">$ {{extra_item.price}}</span>
                 </p>
               </div>
               
@@ -184,10 +184,10 @@
       </div>
       
       <div class="card-footer p-2 d-flex align-items-end justify-content-between ">
-        <p class=" mb-0 small lh-sm     ">
+        <p class=" mb-0  lh-sm   fw-bold  ">
           <span class="d-block mb-0">{{order.total_items}} Servicios</span>
           </p>
-          <p class=" mb-0 small lh-sm ">
+          <p class=" mb-0 fw-bold lh-sm ">
             <span class="d-block mb-0">$ {{order.total_price}}</span>
             </p>
         

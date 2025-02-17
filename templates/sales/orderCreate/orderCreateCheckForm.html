@@ -74,7 +74,7 @@
             </div>
             
             
-            <p  class="mt-4 pb-0 mb-0">Servicios</p>
+            <p  class="mt-4 pb-0 mb-0">Seleccionar servicios</p>
             <table class="table form-table table-bordered table-sm mt-2">
               <thead class="text-center">
               <tr>
@@ -82,7 +82,7 @@
                     <select class="form-control selectpicker "  
                           data-show-subtext="true" 
                           data-live-search="true"
-                          required
+                          
                           name="select-services"
                           id="select-services">
                           <option selected value=''  >
@@ -98,7 +98,7 @@
                         
                   </th>
                   <th class="d-flex justify-content-center">
-                    <button type="button" class="mt-1 btn btn-sm btn-outline-success add-form-row d-flex justify-content-center align-items-center"
+                    <button type="button" class="mt-1 btn btn-sm btn-outline-success select-add-form add-form-row d-flex justify-content-center align-items-center disabled"
                     id="{{ formset.prefix }}">
                     <svg class="" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class=" bi-plus-circle" viewBox="0 0 16 16">
                       <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
@@ -107,6 +107,11 @@
             </button></th>
               </tr>
               </thead>
+              <tr>
+                <td>
+                  Servicios seleccionados
+                </td>
+              </tr>
               <tbody>
               {% for form_data in formset %}
                   <tr class="item d-none">
@@ -259,8 +264,8 @@
             {% endif %}
               
               <small class=" w-100 d-flex justify-content-end mt-3">
-                <button type="submit" class="btn d-flex justify-content-center align-items-center btn-outline-primary shadow-sm border-2 border-primary px-5">
-                  <span id="spinnerOrderCreateForm" class="htmx-indicator spinner-border spinner-border-sm me-2" ></span>Crear</button>
+                <button id="CreateFormBtnOrder" type="submit" class="btn d-flex justify-content-center align-items-center btn-outline-primary shadow-sm border-2 border-primary px-5 disabled">
+                  <span id="spinnerOrderCreateForm" class="htmx-indicator spinner-border spinner-border-sm me-2 " ></span>Crear</button>
             </small>
             </form>
             
@@ -268,5 +273,15 @@
               $(document).ready(function() {
                   $('.selectpicker').selectpicker();
                 });
+
+                document.getElementById('select-services').addEventListener('change', function() {
+                  var button = document.getElementsByClassName('select-add-form');
+                  
+                  if (this.value !== '') {
+                      button[0].classList.remove('disabled');
+                  } else {
+                      button[0].classList.add('disabled');
+                  }
+              });
             </script>
           
