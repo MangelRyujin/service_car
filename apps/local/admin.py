@@ -5,6 +5,7 @@ from apps.local.models import *
 # Register your models here.
 
 admin.site.register(Local)
+admin.site.register(Client)
 
 class ItemInline(admin.TabularInline):
     model = Item

@@ -9,6 +9,7 @@ from apps.service.models import Service
 class Client(models.Model):
     email=models.EmailField(max_length=100,unique=True)
     full_name=models.CharField(max_length=150, blank=True)
+    count_discount= models.PositiveIntegerField(default=0)
     
     class Meta:
         verbose_name = "Client"

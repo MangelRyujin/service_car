@@ -326,6 +326,9 @@ def order_sold(request,pk):
         order.is_paid=True
         order.price = order.total_price
         order.save()
+        if order.client and order.discount > 0:
+            order.client.count_discount=0
+            order.client.save()
         context['message']="Pago completado con éxito"
     return render(request,'sales/orderSold/orderSoldVerify.html',context) 
 
@@ -336,14 +339,14 @@ def order_discount(request,pk):
     order = get_object_or_404(Order,pk=pk,is_paid=False)
     context = {
         'order': order,
-        'discount_form': OrderDiscountForm(instance=order)
+        'discount_form': OrderDiscountForm(instance=order) if order.client and order.client.count_discount > 4 else None
     }
     if request.method == "POST":
-        form = OrderDiscountForm(request.POST,instance=order)
-        if form.is_valid():
-            form.save()
-            context['message']="Descuento añadido correctamente"
-        else:
-            pass
+            form = OrderDiscountForm(request.POST,instance=order)
+            if form.is_valid():
+                form.save()
+                context['message']="Descuento añadido correctamente"
+            else:
+                pass
 
     return render(request,'sales/orderDiscount/orderDiscountForm.html',context) 
