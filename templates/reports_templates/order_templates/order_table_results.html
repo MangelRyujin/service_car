@@ -56,7 +56,7 @@
                     
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi text-info bi-eye-fill"   
                         viewBox="0 0 16 16" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightOrderDetail" aria-controls="offcanvasRight"
-                        hx-get="{% url 'order_detail' pk=order.id  %} "
+                        hx-get="{% url 'reports_order_detail' pk=order.pk  %} "
                         hx-target="#OrderDetail"
                         hx-swap="innerHTML"
                         hx-trigger="click"
