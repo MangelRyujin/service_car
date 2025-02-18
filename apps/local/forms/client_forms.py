@@ -6,10 +6,10 @@ class CreateClientForm(forms.ModelForm):
     
     class Meta:
         model = Client
-        fields = "__all__"
+        exclude = ['count_discount']
 
 class UpdateClientForm(forms.ModelForm):
     
     class Meta:
         model = Client
-        fields = "__all__"
+        exclude = ['count_discount']
